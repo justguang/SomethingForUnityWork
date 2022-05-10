@@ -8,10 +8,14 @@ namespace Test
         static void Main(string[] args)
         {
             //## test ULog
-            Test_ULog test_ULog = new Test_ULog();
-            test_ULog.Init();
+            //Test_ULog test_ULog = new Test_ULog();
+            //test_ULog.Init();
             //end
 
+            //## test UTimer
+            Test_UTimer test_UTimer = new Test_UTimer();
+            test_UTimer.Init();
+            //end
 
             Console.WriteLine("Hello World!");
             Console.ReadKey();

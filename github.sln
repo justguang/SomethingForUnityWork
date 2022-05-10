@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ULog", "ULog\ULog.csproj", "{857A80E1-F097-4E3B-86DE-5FDB7EF8D664}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UTimer", "UTimer\UTimer.csproj", "{A20C17E9-BD46-42EC-89CA-ECB913710793}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UMath", "UMath\UMath.csproj", "{D28A5DF7-DCAD-46EA-8449-B9C86AC23C89}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{857A80E1-F097-4E3B-86DE-5FDB7EF8D664}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{857A80E1-F097-4E3B-86DE-5FDB7EF8D664}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{857A80E1-F097-4E3B-86DE-5FDB7EF8D664}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A20C17E9-BD46-42EC-89CA-ECB913710793}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A20C17E9-BD46-42EC-89CA-ECB913710793}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A20C17E9-BD46-42EC-89CA-ECB913710793}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A20C17E9-BD46-42EC-89CA-ECB913710793}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D28A5DF7-DCAD-46EA-8449-B9C86AC23C89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D28A5DF7-DCAD-46EA-8449-B9C86AC23C89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D28A5DF7-DCAD-46EA-8449-B9C86AC23C89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D28A5DF7-DCAD-46EA-8449-B9C86AC23C89}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
