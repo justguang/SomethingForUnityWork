@@ -3,7 +3,7 @@
 /// ClassName    ：  UInt
 /// Author       ：  LCG
 /// CreateTime   ：  2022/5/10 星期二 
-/// Description  ：  定点数
+/// Description  ：  定点数运算
 ///********************************************/
 /// </summary>
 using System;
@@ -22,6 +22,9 @@ namespace UMaths
         //位移计数
         const int BIT_MOVE_COUNT = 10;
         const long MULTIPLIER_FACTOR = 1 << BIT_MOVE_COUNT;
+
+        public static readonly UInt zero = new UInt(0);
+        public static readonly UInt one = new UInt(1);
 
         #region 构造函数
         //供给内部使用，scaledValue已经缩放后的数据
