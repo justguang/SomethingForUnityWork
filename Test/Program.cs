@@ -13,11 +13,16 @@ namespace Test
             //end
 
             //## test UTimer
-            Test_UTimer test_UTimer = new Test_UTimer();
-            test_UTimer.Init();
+            //Test_UTimer test_UTimer = new Test_UTimer();
+            //test_UTimer.Init();
             //end
 
-            Console.WriteLine("Hello World!");
+            //## test UMath
+            Test_UMath test_UMath = new Test_UMath();
+            test_UMath.Init();
+            //end
+
+            Console.WriteLine("## Test End ##");
             Console.ReadKey();
         }
     }
