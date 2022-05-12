@@ -15,8 +15,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ULog\ULog.csproj" />
-    <ProjectReference Include="..\UMath\UMath.csproj" />
+    <Reference Include="UMath">
+      <HintPath>..\UMath\bin\Debug\netstandard2.0\UMath.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
