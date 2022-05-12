@@ -17,7 +17,7 @@
 
   <ItemGroup>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>..\UnityEngine2019.4.6f1\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>..\UnityEngine2019.4.6f1_lib\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
   </ItemGroup>
 
