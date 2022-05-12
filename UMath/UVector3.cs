@@ -180,7 +180,7 @@ namespace UMaths
         #endregion
 
         /// <summary>
-        /// 当前向量长度平方
+        /// 当前向量长度的平方
         /// </summary>
         public UInt sqrMagnitude
         {
