@@ -1,3 +1,3 @@
-# Test
+# TestByNetCore
 
-测试专用
+.Net Core 测试功能
