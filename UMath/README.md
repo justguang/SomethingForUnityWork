@@ -1,4 +1,7 @@
 # UMath
+
+using UnityEngine.CoreModule
+
 namespace UMaths;
 
 UInt 定点数
