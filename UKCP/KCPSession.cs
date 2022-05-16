@@ -118,10 +118,11 @@ namespace UKcps
                 return;
             }
 
-            byte[] bytes = UKCPTool.Serialize(msg);
-            if (bytes != null)
+            byte[] serialize_bytes = UKCPTool.Serialize(msg);
+            if (serialize_bytes != null)
             {
-                SendMsg(bytes);
+                byte[] compress_bytes = UKCPTool.Compress(serialize_bytes);
+                SendMsg(compress_bytes);
             }
 
         }
@@ -132,7 +133,7 @@ namespace UKcps
                 this.Warn("Session DisConnected. Can not send msg.");
                 return;
             }
-            msg_bytes = UKCPTool.Compress(msg_bytes);
+            //msg_bytes = UKCPTool.Compress(msg_bytes);
             m_kcp.Send(msg_bytes.AsSpan());
         }
         public void CloseSession()
@@ -161,7 +162,7 @@ namespace UKcps
 
         public override bool Equals(object obj)
         {
-            if(obj is KCPSession<T>)
+            if (obj is KCPSession<T>)
             {
                 KCPSession<T> s = obj as KCPSession<T>;
                 return m_sid == s.m_sid;

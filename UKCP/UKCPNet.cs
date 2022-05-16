@@ -279,6 +279,8 @@ namespace UKcps
         public void BroadCastMsg(K msg)
         {
             byte[] bytes = UKCPTool.Serialize<K>(msg);
+            bytes = UKCPTool.Compress(bytes);
+
             foreach (var item in sessionDic)
             {
                 item.Value.SendMsg(bytes);
