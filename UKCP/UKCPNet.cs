@@ -36,6 +36,11 @@ namespace UKcps
             cts = new CancellationTokenSource();
             ct = cts.Token;
         }
+        public UKCPNet()
+        {
+            cts = new CancellationTokenSource();
+            ct = cts.Token;
+        }
 
 
         #region Server
@@ -65,7 +70,7 @@ namespace UKcps
                 {
                     if (ct.IsCancellationRequested)
                     {
-                        ULog.ColorLog(ULogColor.Cyan, "ServerRecive Task is Canceled.");
+                        this.ColorLog(ULogColor.Cyan, "ServerRecive Task is Canceled.");
                         break;
                     }
 
@@ -104,7 +109,7 @@ namespace UKcps
                 }
                 catch (Exception e)
                 {
-                    ULog.Warn("Server udp recive data exception:{0}", e.ToString());
+                    this.Warn("Server udp recive data exception:{0}", e.ToString());
                 }
             }
         }
@@ -116,11 +121,11 @@ namespace UKcps
                 {
                     sessionDic.Remove(sid);
                 }
-                ULog.Warn("SessionID:{0} remove from sessionDic.", sid);
+                this.Warn("SessionID:{0} remove from sessionDic.", sid);
             }
             else
             {
-                ULog.Error("SessionID:{0} cannot find in sessionDic.", sid);
+                this.Error("SessionID:{0} cannot find in sessionDic.", sid);
             }
         }
         public void CloseServer()

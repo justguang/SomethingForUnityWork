@@ -18,7 +18,8 @@ namespace Test.Test_UKCP
         static UKCPNet<ServerSession, NetMsg> server = null;
         public static void Init(string ip, int port)
         {
-            server = new UKCPNet<ServerSession, NetMsg>(new ULogConfig { loggerType = ULoggerType.Console });
+            ULog.InitSetting(new ULogConfig { loggerType = ULoggerType.Console });
+            server = new UKCPNet<ServerSession, NetMsg>();
             server.StartAsServer(ip, port);
 
             while (true)

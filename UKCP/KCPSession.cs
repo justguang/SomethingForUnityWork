@@ -85,7 +85,7 @@ namespace UKcps
                     OnUpdate(now);
                     if (ct.IsCancellationRequested)
                     {
-                        ULog.ColorLog(ULogColor.Cyan, "Session update Task is Cancelled.");
+                        this.ColorLog(ULogColor.Cyan, "Session update Task is Cancelled.");
                         break;
                     }
                     else
@@ -107,14 +107,14 @@ namespace UKcps
             }
             catch (Exception e)
             {
-                ULog.Warn("Session update Exception:{0}", e.ToString());
+                this.Warn("Session update Exception:{0}", e.ToString());
             }
         }
         public void SendMsg(T msg)
         {
             if (!IsConnected())
             {
-                ULog.Warn("Session DisConnected. Can not send msg.");
+                this.Warn("Session DisConnected. Can not send msg.");
                 return;
             }
 
@@ -129,7 +129,7 @@ namespace UKcps
         {
             if (!IsConnected())
             {
-                ULog.Warn("Session DisConnected. Can not send msg.");
+                this.Warn("Session DisConnected. Can not send msg.");
                 return;
             }
             msg_bytes = UKCPTool.Compress(msg_bytes);
