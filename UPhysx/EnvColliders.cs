@@ -8,7 +8,7 @@
 /// </summary>
 using System.Collections.Generic;
 
-namespace PEPhysxs {
+namespace UPhysxs {
     public class EnvColliders {
         public List<ColliderConfig> envColliCfgLst;
 

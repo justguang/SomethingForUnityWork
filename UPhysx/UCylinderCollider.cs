@@ -9,7 +9,7 @@
 using System.Collections.Generic;
 using UMaths;
 
-namespace PEPhysxs {
+namespace UPhysxs {
     public class UCylinderCollider : UColliderBase {
         public UInt mRadius;
 

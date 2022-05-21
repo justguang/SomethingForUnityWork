@@ -8,7 +8,7 @@
 /// </summary>
 using UMaths;
 
-namespace PEPhysxs {
+namespace UPhysxs {
     public class ColliderConfig {
         public string mName;
         public ColliderType mType;

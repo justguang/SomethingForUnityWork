@@ -8,7 +8,7 @@
 /// </summary>
 using UMaths;
 
-namespace PEPhysxs {
+namespace UPhysxs {
     public class UBoxCollider : UColliderBase {
         public UVector3 mSize;
         public UVector3[] mDir;//轴向

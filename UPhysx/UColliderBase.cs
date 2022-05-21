@@ -8,7 +8,7 @@
 /// </summary>
 using UMaths;
 
-namespace PEPhysxs {
+namespace UPhysxs {
     public abstract class UColliderBase {
         public string name;
         public UVector3 mPos;
