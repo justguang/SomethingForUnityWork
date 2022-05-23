@@ -9,8 +9,17 @@
 using UMaths;
 
 namespace UPhysxs {
+    /// <summary>
+    /// 方形碰撞体
+    /// </summary>
     public class UBoxCollider : UColliderBase {
+        /// <summary>
+        /// 碰撞体大小
+        /// </summary>
         public UVector3 mSize;
+        /// <summary>
+        /// 轴向x、y、z【right、up、forward】
+        /// </summary>
         public UVector3[] mDir;//轴向
 
         public UBoxCollider(ColliderConfig cfg) {

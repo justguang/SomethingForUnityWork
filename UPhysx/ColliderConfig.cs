@@ -9,21 +9,57 @@
 using UMaths;
 
 namespace UPhysxs {
+
+    /// <summary>
+    /// 碰撞体配置
+    /// </summary>
     public class ColliderConfig {
+
+        /// <summary>
+        /// 碰撞体名字
+        /// </summary>
         public string mName;
+        /// <summary>
+        /// 碰撞体类型
+        /// </summary>
         public ColliderType mType;
+        /// <summary>
+        /// 碰撞体位置
+        /// </summary>
         public UVector3 mPos;
 
-        //box
+        #region box 类型的属性
+        /// <summary>
+        /// 轴向x、y、z三个方向
+        /// </summary>
+        public UVector3[] mAxis;
+        /// <summary>
+        /// 大小
+        /// </summary>
         public UVector3 mSize;
-        public UVector3[] mAxis;//轴向
+        #endregion
 
-        //cylinder
-        public UInt mRadius;//半径
+        #region cylinder 类型的属性
+        /// <summary>
+        /// 半径
+        /// </summary>
+        public UInt mRadius;
+        #endregion
     }
 
+
+    /// <summary>
+    /// 碰撞体类型
+    /// </summary>
     public enum ColliderType {
+
+        /// <summary>
+        /// 方形【矩形】
+        /// </summary>
         Box,
+        /// <summary>
+        /// 圆柱形
+        /// </summary>
         Cylinder,
     }
 }

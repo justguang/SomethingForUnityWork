@@ -8,29 +8,52 @@
 /// </summary>
 using System.Collections.Generic;
 
-namespace UPhysxs {
-    public class EnvColliders {
+namespace UPhysxs
+{
+    public class EnvColliders
+    {
+
+        /// <summary>
+        /// 所有碰撞配置
+        /// </summary>
         public List<ColliderConfig> envColliCfgLst;
 
+        /// <summary>
+        /// 根据碰撞配置生成的逻辑层碰撞体
+        /// </summary>
         List<UColliderBase> envColliLst;
 
-        public void Init() {
+        public void Init()
+        {
             envColliLst = new List<UColliderBase>();
-            for(int i = 0; i < envColliCfgLst.Count; i++) {
+
+            //遍历所有碰撞配置，生成逻辑层碰撞体
+            int cfgCount = envColliCfgLst.Count;
+            for (int i = 0; i < cfgCount; i++)
+            {
                 ColliderConfig cfg = envColliCfgLst[i];
-                if(cfg.mType == ColliderType.Box) {
+                if (cfg.mType == ColliderType.Box)
+                {
                     envColliLst.Add(new UBoxCollider(cfg));
                 }
-                else if(cfg.mType == ColliderType.Cylinder) {
+                else if (cfg.mType == ColliderType.Cylinder)
+                {
                     envColliLst.Add(new UCylinderCollider(cfg));
                 }
-                else {
+                else
+                {
                     //TODO...其他形状的碰撞器
                 }
             }
         }
 
-        public List<UColliderBase> GetEnvColliders() {
+
+        /// <summary>
+        /// 获取逻辑层所有环境碰撞
+        /// </summary>
+        /// <returns> 返回 UColliderBase类型的List集合 </returns>
+        public List<UColliderBase> GetEnvColliders()
+        {
             return envColliLst;
         }
     }
