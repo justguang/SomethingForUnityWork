@@ -143,6 +143,10 @@ namespace UTimers
             }
             tid = 0;
         }
+
+        /// <summary>
+        /// 如果实例TickTimer定时器时，interval参数为0，则需要使用者外部update调用此函数来驱动定时器
+        /// </summary>
         public void UpdateTask()
         {
             double nowTime = GetUTCMilliseconds();
@@ -174,6 +178,10 @@ namespace UTimers
                 }
             }
         }
+
+        /// <summary>
+        /// 如果实例TickTimer定时器时，setHandle参数为true，则需要使用者外部update调用此函数来驱动定时任务执行回调
+        /// </summary>
         public void HandleTask()
         {
             while (packQueue != null && packQueue.Count > 0)

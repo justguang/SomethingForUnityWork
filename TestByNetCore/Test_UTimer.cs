@@ -8,6 +8,7 @@
 /// </summary>
 
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using ULogs;
 using UTimers;
@@ -23,7 +24,8 @@ namespace Test
             ULog.Log("test UTimer Run...");
 
             //TickTimer_Debug();
-            AsyncTimer_Debug();
+            //AsyncTimer_Debug();
+            FrameTimer_Debug();
 
         }
 
@@ -150,6 +152,47 @@ namespace Test
                     timer.DelTask(taskId);
                 }
             }
+        }
+
+
+        void FrameTimer_Debug()
+        {
+            FrameTimer timer = new FrameTimer(100)
+            {
+                LogFunc = ULog.Log,
+                WarnFunc = ULog.Warn,
+                ErrorFunc = ULog.Error
+            };
+
+            uint interval = 10;
+            int count = 9;
+            int taskId = 0;
+
+            Task.Run(async () =>
+            {
+                await Task.Delay(2000);
+                taskId = timer.AddTask(
+                    interval,
+                    (int tid) =>
+                    {
+                        ULog.ColorLog(ULogColor.Magenta, "tid:{0} work.", tid);
+                    },
+                    (int tid) =>
+                    {
+                        ULog.ColorLog(ULogColor.Magenta, "tid:{0} cancel.", tid);
+                    },
+                    count);
+
+
+                while (true)
+                {
+                    timer.UpdateTask();
+                    Thread.Sleep(66);
+                }
+
+            });
+
+
         }
 
     }

@@ -98,7 +98,9 @@ namespace UTimers
             tid = 0;
         }
 
-        
+        /// <summary>
+        /// 实例化FrameTimer后，使用者需在外部update调用此函数来驱动定时器
+        /// </summary>
         public void UpdateTask()
         {
             ++currentFrame;//每执行一次，代表已过一帧，当前帧id+1

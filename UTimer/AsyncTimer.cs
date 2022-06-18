@@ -122,7 +122,7 @@ namespace UTimers
         }
 
         /// <summary>
-        /// 如设置的setHandle=true，使用者需在外部update调用此函数驱动任务
+        /// 如实例化AsyncTimer定时器，参数setHandle设置为true，使用者需在外部update调用此函数驱动定时任务执行回调
         /// </summary>
         public void UpdateHandleTask()
         {
