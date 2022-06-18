@@ -14,8 +14,8 @@ namespace Test
             //end
 
             //## test UTimer
-            //Test_UTimer test_UTimer = new Test_UTimer();
-            //test_UTimer.Init();
+            Test_UTimer test_UTimer = new Test_UTimer();
+            test_UTimer.Init();
             //end
 
             //## test UMath
@@ -27,7 +27,9 @@ namespace Test
             //{
             //    loggerType = ULoggerType.Console
             //});
-            ClientStart.Init("127.0.0.1", 6080);
+
+            //## test UKCP
+            //ClientStart.Init("127.0.0.1", 6080);
 
             Console.WriteLine("## Test End ##");
             Console.ReadKey();
