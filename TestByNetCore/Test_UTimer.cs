@@ -22,8 +22,8 @@ namespace Test
 
             ULog.Log("test UTimer Run...");
 
-            TickTimer_Debug();
-            //AsyncTimer_Debug();
+            //TickTimer_Debug();
+            AsyncTimer_Debug();
 
         }
 

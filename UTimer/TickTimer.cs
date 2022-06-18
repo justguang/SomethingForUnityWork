@@ -141,6 +141,7 @@ namespace UTimers
             {
                 timerThread.Abort();
             }
+            tid = 0;
         }
         public void UpdateTask()
         {
