@@ -34,6 +34,13 @@ namespace UTimers
 
 
         private readonly Thread timerThread;
+
+        /// <summary>
+        /// 实例化timer
+        /// </summary>
+        /// <param name="interval">任务驱动器每次驱动(任务列表轮询)的间隔时间【默认0，单位毫秒】</param>
+        /// <param name="setHandle">默认true，如果为true则需要使用者在外部update中调用
+        /// [HandleTask]驱动；如果为false，则tiemr内部update驱动</param>
         public TickTimer(int interval = 0, bool setHandle = true)
         {
             this.setHandle = setHandle;
@@ -67,7 +74,14 @@ namespace UTimers
             }
         }
 
-
+        /// <summary>
+        /// 添加定时任务
+        /// </summary>
+        /// <param name="delay">每次(循环)任务开始执行时的延时时间【单位毫秒】</param>
+        /// <param name="taskCallBack">任务执行时的回调</param>
+        /// <param name="cancelCallBack">任务取消时的回调</param>
+        /// <param name="count">指定该任务循环多少次【默认1次】</param>
+        /// <returns>返回该任务的id</returns>
         public override int AddTask(uint delay, Action<int> taskCallBack, Action<int> cancelCallBack, int count = 1)
         {
             int tid = GenerateId();
@@ -85,6 +99,12 @@ namespace UTimers
             }
 
         }
+
+        /// <summary>
+        /// 删除任务
+        /// </summary>
+        /// <param name="tid">要删除的任务的id</param>
+        /// <returns>返回true删除成功</returns>
         public override bool DelTask(int tid)
         {
             if (taskDic.TryRemove(tid, out TickTask task))
@@ -105,6 +125,10 @@ namespace UTimers
                 return false;
             }
         }
+
+        /// <summary>
+        /// 重置，停止并清理所有任务
+        /// </summary>
         public override void Reset()
         {
             if (!packQueue.IsEmpty)
@@ -137,6 +161,7 @@ namespace UTimers
                     }
                     else
                     {
+                        //为避免循环次数增加而累积产生的误差，每次计算延时执行时，都是以最开始指定的时间计算
                         task.destTime = task.startTime + task.delay * (task.loopIndex + 1);
                         CallTaskCB(task.tid, task.taskCallBack);
                     }
@@ -150,9 +175,9 @@ namespace UTimers
         }
         public void HandleTask()
         {
-            while (packQueue!=null&&packQueue.Count>0)
+            while (packQueue != null && packQueue.Count > 0)
             {
-                if(packQueue.TryDequeue(out TickTaskPack pack))
+                if (packQueue.TryDequeue(out TickTaskPack pack))
                 {
                     pack.cb.Invoke(pack.tid);
                 }
@@ -162,7 +187,7 @@ namespace UTimers
                 }
             }
         }
-        
+
         void FinishTask(int tid)
         {
             if (taskDic.TryRemove(tid, out TickTask task))
@@ -214,14 +239,14 @@ namespace UTimers
         class TickTask
         {
             public int tid;
-            public uint delay;
-            public int count;
+            public uint delay;//任务(循环)开始执行时的延迟【毫秒】
+            public int count;//任务循环次数(默认1次)
             public double destTime;
             public Action<int> taskCallBack;
             public Action<int> cancelCallBack;
 
             public double startTime;
-            public ulong loopIndex;
+            public ulong loopIndex;//任务已循环次数
 
             public TickTask(
                 int tid,
