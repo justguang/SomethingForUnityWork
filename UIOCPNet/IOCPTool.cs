@@ -43,6 +43,21 @@ namespace UIOCPNet
         }
 
         /// <summary>
+        /// 打包网络数据
+        /// </summary>
+        /// <param name="body">数据体</param>
+        /// <returns>返回带有指示包体长度的包头的数据包，【数据包头占4个字节】</returns>
+        public static byte[] PackLenInfo(byte[] body)
+        {
+            int len = body.Length;
+            byte[] pkg = new byte[len + 4];
+            byte[] head = BitConverter.GetBytes(len);
+            head.CopyTo(pkg, 0);
+            body.CopyTo(pkg, 4);
+            return pkg;
+        }
+
+        /// <summary>
         /// 序列化
         /// </summary>
         /// <param name="msg">要序列化的IOCPMsg</param>

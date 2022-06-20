@@ -23,6 +23,7 @@ namespace UIOCPNet
     {
         Socket skt;
         SocketAsyncEventArgs saea;
+        IOCPToken token;
 
         public IOCPClient()
         {
@@ -45,6 +46,22 @@ namespace UIOCPNet
             StartConnect();
         }
 
+        /// <summary>
+        /// 关闭
+        /// </summary>
+        public void CloseClient()
+        {
+            if (token != null)
+            {
+                token.CloseToken();
+                token = null;
+            }
+            if (skt != null)
+            {
+                skt = null;
+            }
+        }
+
         //开始异步连接
         void StartConnect()
         {
@@ -61,7 +78,9 @@ namespace UIOCPNet
 
         void ProcessConnect()
         {
-            IOCPTool.Log("连接成功");
+            //IOCPTool.Log("连接成功");
+            token = new IOCPToken();
+            token.InitToken(skt);
         }
 
         void IO_Completed(object sender, SocketAsyncEventArgs saea)
