@@ -16,7 +16,8 @@ namespace Test
 
         public void Init()
         {
-            IOCPTool.ColorLog(IOCPLogColor.Green, "Test IOCPTool Log。。。");
+            IOCPServer server = new IOCPServer();
+            server.StartAsServer("192.168.0.122", 19020, 1000);
         }
 
     }

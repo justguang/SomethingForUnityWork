@@ -17,6 +17,7 @@ namespace TestByNetFramework
         {
             IOCPClient client = new IOCPClient();
             client.StartAsClient("192.168.0.122", 19020);
+
         }
 
     }
