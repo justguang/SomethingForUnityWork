@@ -20,7 +20,9 @@ namespace UIOCPNet
     }
     #endregion
 
-
+    /// <summary>
+    /// 示例
+    /// </summary>
     public class UIOCPNet_Example: IOCPToken<NetMsg>
     {
         protected override void OnConnected()
@@ -35,7 +37,7 @@ namespace UIOCPNet
 
         protected override void OnReceiveMsg(NetMsg msg)
         {
-            IOCPTool.Log("收到数据：" + msg.msg);
+            IOCPTool.Log("ReceiveMsg：" + msg.msg);
         }
     }
 }
