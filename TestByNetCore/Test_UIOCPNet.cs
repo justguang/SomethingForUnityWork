@@ -7,6 +7,7 @@
 ///********************************************/
 /// </summary>
 using System;
+using System.Collections.Generic;
 using UIOCPNet;
 
 namespace Test
@@ -16,18 +17,31 @@ namespace Test
 
         public void Init()
         {
-            IOCPMsg msg = new IOCPMsg
-            {
-                msg = "justguang",
-            };
-
-
-            byte[] data = IOCPTool.Serialize(msg);
-            IOCPMsg msg_data = IOCPTool.DesSerialize(data);
-
 
             IOCPServer server = new IOCPServer();
             server.StartAsServer("192.168.1.122", 19021, 1000);
+
+            while (true)
+            {
+                string ipt = Console.ReadLine();
+                if (ipt == "quit")
+                {
+                    server.CloseServer();
+                    break;
+                }
+                else
+                {
+                    List<IOCPToken> tokenList = server.GetTokenList();
+                    int len = tokenList.Count;
+                    for (int i = 0; i < len; i++)
+                    {
+                        tokenList[i].SendMsg(new IOCPMsg
+                        {
+                            msg = string.Format("Broadcast:{0}", ipt),
+                        });
+                    }
+                }
+            }
         }
 
     }

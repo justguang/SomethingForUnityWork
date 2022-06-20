@@ -122,7 +122,7 @@ namespace UIOCPNet
         //解析后的数据
         void OnReceiveMsg(IOCPMsg msg)
         {
-
+            IOCPTool.Log("收到网络消息：" + msg.msg);
         }
         #endregion
 

@@ -67,6 +67,7 @@ namespace UIOCPNet
         //开始异步接收连接
         void StartAccept()
         {
+            saea.AcceptSocket = null;
             acceptSemaphore.WaitOne();
             bool suspend = skt.AcceptAsync(saea);
             if (suspend == false)
@@ -87,6 +88,7 @@ namespace UIOCPNet
             token.InitToken(saea.AcceptSocket);
             token.onTokenClose = OnTokenClose;
             IOCPTool.ColorLog(IOCPLogColor.Green, "Client Online, Allocate TokenID:{0}", token.tokenID);
+            StartAccept();
         }
 
         //有个连接断开

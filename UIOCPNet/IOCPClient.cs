@@ -21,9 +21,10 @@ namespace UIOCPNet
     /// </summary>
     public class IOCPClient
     {
+        public IOCPToken token;
+
         Socket skt;
         SocketAsyncEventArgs saea;
-        IOCPToken token;
 
         public IOCPClient()
         {
@@ -47,7 +48,7 @@ namespace UIOCPNet
         }
 
         /// <summary>
-        /// 关闭
+        /// 关闭client
         /// </summary>
         public void CloseClient()
         {

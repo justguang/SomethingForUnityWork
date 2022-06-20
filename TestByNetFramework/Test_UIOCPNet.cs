@@ -16,8 +16,24 @@ namespace TestByNetFramework
         public void Init()
         {
             IOCPClient client = new IOCPClient();
-            client.StartAsClient("192.168.1.122", 19020);
+            client.StartAsClient("192.168.1.122", 19021);
 
+            while (true)
+            {
+                string ipt = Console.ReadLine();
+                if (ipt == "quit")
+                {
+                    client.CloseClient();
+                    break;
+                }
+                else
+                {
+                    client.token.SendMsg(new IOCPMsg
+                    {
+                        msg = ipt,
+                    });
+                }
+            }
         }
 
     }
