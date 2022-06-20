@@ -14,6 +14,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\UIOCPNet\UIOCPNet.csproj" />
     <ProjectReference Include="..\UKCPExampleProtocol\UKCPExampleProtocol.csproj" />
     <ProjectReference Include="..\UKCP\UKCP.csproj" />
     <ProjectReference Include="..\ULog\ULog.csproj" />

@@ -9,7 +9,7 @@
 using System;
 using System.Threading;
 
-namespace UUIOCPNet
+namespace UIOCPNet
 {
     /// <summary>
     /// 工具函数

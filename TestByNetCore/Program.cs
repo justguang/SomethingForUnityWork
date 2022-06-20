@@ -13,23 +13,34 @@ namespace Test
             //test_ULog.Init();
             //end
 
+
             //## test UTimer
-            Test_UTimer test_UTimer = new Test_UTimer();
-            test_UTimer.Init();
+            //Test_UTimer test_UTimer = new Test_UTimer();
+            //test_UTimer.Init();
             //end
+
 
             //## test UMath
             //Test_UMath test_UMath = new Test_UMath();
             //test_UMath.Init();
             //end
 
+
             //ULog.InitSetting(new ULogConfig
             //{
             //    loggerType = ULoggerType.Console
             //});
 
+
             //## test UKCP
             //ClientStart.Init("127.0.0.1", 6080);
+            //end
+
+
+            //## test UIOCPNet
+            Test_UIOCPNet test_UIOCP = new Test_UIOCPNet();
+            test_UIOCP.Init();
+            //end
 
             Console.WriteLine("## Test End ##");
             Console.ReadKey();
