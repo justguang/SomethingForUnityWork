@@ -16,7 +16,7 @@ namespace Test
 
         public void Init()
         {
-            IOCPTool.ConsoleLog("Test IOCPTool Log。。。", IOCPLogColor.Green);
+            IOCPTool.ColorLog(IOCPLogColor.Green, "Test IOCPTool Log。。。");
         }
 
     }

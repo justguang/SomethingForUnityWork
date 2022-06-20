@@ -17,7 +17,60 @@ namespace UIOCPNet
     public static class IOCPTool
     {
         #region LOG
-        public static void ConsoleLog(string msg, IOCPLogColor color)
+        public static Action<string> LogFunc;
+        public static Action<IOCPLogColor, string> ColorLogFunc;
+        public static Action<string> WarnFunc;
+        public static Action<string> ErrorFunc;
+
+        public static void Log(string msg, params object[] args)
+        {
+            msg = string.Format(msg, args);
+            if (LogFunc != null)
+            {
+                LogFunc(msg);
+            }
+            else
+            {
+                ConsoleLog(msg, IOCPLogColor.None);
+            }
+        }
+        public static void ColorLog(IOCPLogColor color, string msg, params object[] args)
+        {
+            msg = string.Format(msg, args);
+            if (ColorLogFunc != null)
+            {
+                ColorLogFunc(color, msg);
+            }
+            else
+            {
+                ConsoleLog(msg, color);
+            }
+        }
+        public static void Warn(string msg, params object[] args)
+        {
+            msg = string.Format(msg, args);
+            if (WarnFunc != null)
+            {
+                WarnFunc(msg);
+            }
+            else
+            {
+                ConsoleLog(msg, IOCPLogColor.Yellow);
+            }
+        }
+        public static void Error(string msg, params object[] args)
+        {
+            msg = string.Format(msg, args);
+            if (ErrorFunc != null)
+            {
+                ErrorFunc(msg);
+            }
+            else
+            {
+                ConsoleLog(msg, IOCPLogColor.Red);
+            }
+        }
+        static void ConsoleLog(string msg, IOCPLogColor color)
         {
             int threadID = Thread.CurrentThread.ManagedThreadId;
             msg = string.Format("ThreadID:{0} {1}", threadID, msg);
