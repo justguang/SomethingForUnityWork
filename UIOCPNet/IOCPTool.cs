@@ -7,6 +7,10 @@
 ///********************************************/
 /// </summary>
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
 
 namespace UIOCPNet
@@ -16,6 +20,78 @@ namespace UIOCPNet
     /// </summary>
     public static class IOCPTool
     {
+        /// <summary>
+        /// 处理数据粘包分包
+        /// </summary>
+        /// <param name="byteList">所有接收的数据</param>
+        /// <returns>返回一个完整的数据包，如果不完整返回null</returns>
+        public static byte[] SplitLogicBytes(ref List<byte> byteList)
+        {
+            byte[] buff = null;
+            if (byteList.Count > 4)
+            {
+                byte[] data = byteList.ToArray();
+                int len = BitConverter.ToInt32(data, 0);
+                if (byteList.Count >= len + 4)
+                {
+                    buff = new byte[len];
+                    Buffer.BlockCopy(data, 4, buff, 0, len);
+                    byteList.RemoveRange(0, len + 4);
+                }
+            }
+            return buff;
+        }
+
+        /// <summary>
+        /// 序列化
+        /// </summary>
+        /// <param name="msg">要序列化的IOCPMsg</param>
+        public static byte[] Serialize(IOCPMsg msg)
+        {
+            byte[] data = null;
+            MemoryStream ms = new MemoryStream();
+            BinaryFormatter bf = new BinaryFormatter();
+            try
+            {
+                bf.Serialize(ms, msg);
+                ms.Seek(0, SeekOrigin.Begin);
+                data = ms.ToArray();
+            }
+            catch (SerializationException e)
+            {
+                Error("Failed to serialie. Reson:{0}", e.Message);
+            }
+            finally
+            {
+                ms.Close();
+            }
+            return data;
+        }
+
+        /// <summary>
+        /// 反序列化
+        /// </summary>
+        /// <param name="bytes">要反序列化的字节数组</param>
+        public static IOCPMsg DesSerialize(byte[] bytes)
+        {
+            IOCPMsg msg = null;
+            MemoryStream ms = new MemoryStream(bytes);
+            BinaryFormatter bf = new BinaryFormatter();
+            try
+            {
+                msg = (IOCPMsg)bf.Deserialize(ms);
+            }
+            catch (SerializationException e)
+            {
+                Error("Failed to desSerialie. Reson:{0} , bytesLen:{1}", e.Message, bytes.Length);
+            }
+            finally
+            {
+                ms.Close();
+            }
+            return msg;
+        }
+
         #region LOG
         public static Action<string> LogFunc;
         public static Action<IOCPLogColor, string> ColorLogFunc;

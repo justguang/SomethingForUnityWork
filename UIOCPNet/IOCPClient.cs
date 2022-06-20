@@ -45,6 +45,7 @@ namespace UIOCPNet
             StartConnect();
         }
 
+        //开始异步连接
         void StartConnect()
         {
             bool suspend = skt.ConnectAsync(saea);

@@ -48,6 +48,7 @@ namespace UIOCPNet
             StartAccept();
         }
 
+        //开始异步接收连接
         void StartAccept()
         {
             bool suspend = skt.AcceptAsync(saea);

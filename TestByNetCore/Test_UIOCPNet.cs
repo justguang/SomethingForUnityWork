@@ -16,6 +16,16 @@ namespace Test
 
         public void Init()
         {
+            IOCPMsg msg = new IOCPMsg
+            {
+                msg = "justguang",
+            };
+
+
+            byte[] data = IOCPTool.Serialize(msg);
+            IOCPMsg msg_data = IOCPTool.DesSerialize(data);
+
+
             IOCPServer server = new IOCPServer();
             server.StartAsServer("192.168.1.122", 19021, 1000);
         }

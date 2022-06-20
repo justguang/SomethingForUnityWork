@@ -59,6 +59,7 @@ namespace UIOCPNet
             StartAsyncRcv();
         }
 
+        //开始异步接收数据
         void StartAsyncRcv()
         {
             bool suspend = skt.ReceiveAsync(rcvSAEA);
@@ -67,6 +68,8 @@ namespace UIOCPNet
                 ProcessRcv();
             }
         }
+
+        //接收到数据
         void ProcessRcv()
         {
             if (rcvSAEA.BytesTransferred > 0 && rcvSAEA.SocketError == SocketError.Success)
@@ -74,7 +77,10 @@ namespace UIOCPNet
                 byte[] bytes = new byte[rcvSAEA.BytesTransferred];
                 Buffer.BlockCopy(rcvSAEA.Buffer,0,bytes,0,rcvSAEA.BytesTransferred);
                 readList.AddRange(bytes);
+             
+                //处理接收的数据
                 ProcessByteList();
+                //继续开始异步接收数据
                 StartAsyncRcv();
             }
             else
@@ -84,9 +90,14 @@ namespace UIOCPNet
             }
         }
 
+        //处理接收的数据
         void ProcessByteList()
         {
+            byte[] buff = IOCPTool.SplitLogicBytes(ref readList);
+            if (buff != null)
+            {
 
+            }
         }
 
         void IO_Completed(object sender, SocketAsyncEventArgs saea)
@@ -94,11 +105,13 @@ namespace UIOCPNet
             //
         }
 
+        //关闭会话
         public void CloseToken()
         {
 
         }
 
+        //套接字连接成功
         void OnConnected()
         {
             IOCPTool.Log("Connect Success.");
