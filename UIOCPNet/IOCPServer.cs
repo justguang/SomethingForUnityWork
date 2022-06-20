@@ -129,6 +129,24 @@ namespace UIOCPNet
             return tokenList;
         }
 
+        /// <summary>
+        /// 关闭server
+        /// </summary>
+        public void CloseServer()
+        {
+            for (int i = 0; i < tokenList.Count; i++)
+            {
+                tokenList[i].CloseToken();
+            }
+            tokenList = null;
+
+            if (skt != null)
+            {
+                skt.Close();
+                skt = null;
+            }
+        }
+
         void IO_Completed(object sender, SocketAsyncEventArgs saea)
         {
             ProcessAccept();
