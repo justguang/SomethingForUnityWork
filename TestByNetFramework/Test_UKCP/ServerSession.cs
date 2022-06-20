@@ -11,7 +11,7 @@ using System;
 using UKcps;
 using ULogs;
 
-namespace Test.Test_UKCP
+namespace TestByNetFramework
 {
     public class ServerSession : KCPSession<NetMsg>
     {

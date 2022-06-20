@@ -73,7 +73,7 @@ namespace UIOCPNet
         static void ConsoleLog(string msg, IOCPLogColor color)
         {
             int threadID = Thread.CurrentThread.ManagedThreadId;
-            msg = string.Format("ThreadID:{0} {1}", threadID, msg);
+            msg = string.Format("ThreadID:{0} >> {1}", threadID, msg);
             switch (color)
             {
                 case IOCPLogColor.Red:
@@ -108,6 +108,7 @@ namespace UIOCPNet
                     break;
                 case IOCPLogColor.None:
                 default:
+                    Console.WriteLine(msg);
                     break;
             }
         }

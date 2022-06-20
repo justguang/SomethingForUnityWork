@@ -42,7 +42,7 @@ namespace Test
             test_UIOCP.Init();
             //end
 
-            Console.WriteLine("## Test End ##");
+            Console.WriteLine("## Test End on .Net Core##");
             Console.ReadKey();
         }
     }

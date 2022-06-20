@@ -61,6 +61,7 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Test_UIOCPNet.cs" />
     <Compile Include="Test_UKCP\ServerSession.cs" />
     <Compile Include="Test_UKCP\ServerStart.cs" />
   </ItemGroup>
@@ -69,6 +70,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\UIOCPNet\UIOCPNet.csproj">
+      <Project>{dd19fd8e-cd93-46b4-b40a-255356055179}</Project>
+      <Name>UIOCPNet</Name>
+    </ProjectReference>
     <ProjectReference Include="..\UKCPExampleProtocol\UKCPExampleProtocol.csproj">
       <Project>{7cbb0bcc-df47-41d5-94b6-d07008b38adc}</Project>
       <Name>UKCPExampleProtocol</Name>
