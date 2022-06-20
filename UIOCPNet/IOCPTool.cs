@@ -60,8 +60,8 @@ namespace UIOCPNet
         /// <summary>
         /// 序列化
         /// </summary>
-        /// <param name="msg">要序列化的IOCPMsg</param>
-        public static byte[] Serialize(IOCPMsg msg)
+        /// <param name="msg">要序列化的对象</param>
+        public static byte[] Serialize<T>(T msg) where T : IOCPMsg
         {
             byte[] data = null;
             MemoryStream ms = new MemoryStream();
@@ -87,14 +87,14 @@ namespace UIOCPNet
         /// 反序列化
         /// </summary>
         /// <param name="bytes">要反序列化的字节数组</param>
-        public static IOCPMsg DesSerialize(byte[] bytes)
+        public static T DesSerialize<T>(byte[] bytes) where T:IOCPMsg
         {
-            IOCPMsg msg = null;
+            T msg = null;
             MemoryStream ms = new MemoryStream(bytes);
             BinaryFormatter bf = new BinaryFormatter();
             try
             {
-                msg = (IOCPMsg)bf.Deserialize(ms);
+                msg = (T)bf.Deserialize(ms);
             }
             catch (SerializationException e)
             {

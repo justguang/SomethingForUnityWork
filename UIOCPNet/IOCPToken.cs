@@ -34,7 +34,7 @@ namespace UIOCPNet
     /// 网络消息发送方式：Socket.SendAsync；
     /// 消息接收缓冲2048个字节。
     /// </summary>
-    public class IOCPToken
+    public abstract class IOCPToken<T> where T : IOCPMsg, new()
     {
         /// <summary>
         /// token ID
@@ -113,16 +113,10 @@ namespace UIOCPNet
             byte[] buff = IOCPTool.SplitLogicBytes(ref readList);
             if (buff != null)
             {
-                IOCPMsg msg = IOCPTool.DesSerialize(buff);
+                T msg = IOCPTool.DesSerialize<T>(buff);
                 OnReceiveMsg(msg);
                 ProcessByteList();
             }
-        }
-
-        //解析后的数据
-        void OnReceiveMsg(IOCPMsg msg)
-        {
-            IOCPTool.Log("收到网络消息：" + msg.msg);
         }
         #endregion
 
@@ -132,7 +126,7 @@ namespace UIOCPNet
         /// </summary>
         /// <param name="msg">消息体</param>
         /// <returns>返回true发送完毕，反之false发送有误</returns>
-        public bool SendMsg(IOCPMsg msg)
+        public bool SendMsg(T msg)
         {
             if (msg != null)
             {
@@ -195,6 +189,23 @@ namespace UIOCPNet
         #endregion
 
 
+        //事件，处理接收和发送
+        void IO_Completed(object sender, SocketAsyncEventArgs saea)
+        {
+            switch (saea.LastOperation)
+            {
+                case SocketAsyncOperation.Receive:
+                    ProcessRcv();
+                    break;
+                case SocketAsyncOperation.Send:
+                    ProcessSend();
+                    break;
+                default:
+                    IOCPTool.Warn("The last operation completed on the socket was not a receive or send op.");
+                    break;
+            }
+        }
+
         //关闭会话
         public void CloseToken()
         {
@@ -224,33 +235,17 @@ namespace UIOCPNet
             }
         }
 
-        void OnDisConnected()
-        {
-            IOCPTool.Log("DisConnected.");
-        }
+
+        //收到并解析后的数据
+        protected abstract void OnReceiveMsg(T msg);
+
+        //套接字断开连接
+        protected abstract void OnDisConnected();
 
         //套接字连接成功
-        void OnConnected()
-        {
-            IOCPTool.Log("Connect Success.");
-        }
+        protected abstract void OnConnected();
 
-        //事件，处理接收和发送
-        void IO_Completed(object sender, SocketAsyncEventArgs saea)
-        {
-            switch (saea.LastOperation)
-            {
-                case SocketAsyncOperation.Receive:
-                    ProcessRcv();
-                    break;
-                case SocketAsyncOperation.Send:
-                    ProcessSend();
-                    break;
-                default:
-                    IOCPTool.Warn("The last operation completed on the socket was not a receive or send op.");
-                    break;
-            }
-        }
+
 
     }
 }

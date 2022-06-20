@@ -14,11 +14,10 @@ namespace Test
 {
     public class Test_UIOCPNet
     {
-
         public void Init()
         {
 
-            IOCPNet server = new IOCPNet();
+            IOCPNet<UIOCPNet_Example, NetMsg> server = new IOCPNet<UIOCPNet_Example, NetMsg>();
             server.StartAsServer("192.168.1.122", 19021, 1000);
 
             while (true)
@@ -31,11 +30,11 @@ namespace Test
                 }
                 else
                 {
-                    List<IOCPToken> tokenList = server.GetTokenList();
+                    List<UIOCPNet_Example> tokenList = server.GetTokenList();
                     int len = tokenList.Count;
                     for (int i = 0; i < len; i++)
                     {
-                        tokenList[i].SendMsg(new IOCPMsg
+                        tokenList[i].SendMsg(new NetMsg
                         {
                             msg = string.Format("Broadcast:{0}", ipt),
                         });

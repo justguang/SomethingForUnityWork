@@ -13,9 +13,10 @@ namespace TestByNetFramework
 {
     public class Test_UIOCPNet
     {
+
         public void Init()
         {
-            IOCPNet client = new IOCPNet();
+            IOCPNet<UIOCPNet_Example,NetMsg> client = new IOCPNet<UIOCPNet_Example, NetMsg>();
             client.StartAsClient("192.168.1.122", 19021);
 
             while (true)
@@ -28,7 +29,7 @@ namespace TestByNetFramework
                 }
                 else
                 {
-                    client.token.SendMsg(new IOCPMsg
+                    client.token.SendMsg(new NetMsg
                     {
                         msg = ipt,
                     });

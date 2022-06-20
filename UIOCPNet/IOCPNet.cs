@@ -15,12 +15,21 @@ using System.Threading;
 namespace UIOCPNet
 {
     /// <summary>
+    /// 网络消息数据协议
+    /// </summary>
+    [Serializable]
+    public abstract class IOCPMsg { }
+
+
+    /// <summary>
     /// 基于IOCP封装的异步套接字通信【服务端】；
     /// 套接字类型 => Stream；
     /// 协议 => Tcp；
     /// 接收连接方式 => Socket.AcceptAsync。
     /// </summary>
-    public class IOCPNet
+    public class IOCPNet<T, K>
+        where T : IOCPToken<K>, new()
+        where K : IOCPMsg, new()
     {
         Socket skt;
         SocketAsyncEventArgs saea;//事件
@@ -34,8 +43,8 @@ namespace UIOCPNet
         #region Server
         public int backlog = 100;
         int curConnCount = 0;//当前连接数量
-        IOCPTokenPool tokenPool;//会话token缓存池
-        List<IOCPToken> tokenList;//管理已连接的token
+        IOCPTokenPool<T, K> tokenPool;//会话token缓存池
+        List<T> tokenList;//管理已连接的token
         Semaphore acceptSemaphore;//连接信号量限制
 
         /// <summary>
@@ -48,11 +57,11 @@ namespace UIOCPNet
         {
             curConnCount = 0;
             acceptSemaphore = new Semaphore(maxConnectCount, maxConnectCount);
-            tokenPool = new IOCPTokenPool(maxConnectCount);
-            tokenList = new List<IOCPToken>();
+            tokenPool = new IOCPTokenPool<T, K>(maxConnectCount);
+            tokenList = new List<T>();
             for (int i = 0; i < maxConnectCount; i++)
             {
-                IOCPToken token = new IOCPToken { tokenID = i + 1 };
+                T token = new T { tokenID = i + 1 };
                 tokenPool.Push(token);
             }
 
@@ -80,11 +89,13 @@ namespace UIOCPNet
         void ProcessAccept()
         {
             Interlocked.Increment(ref curConnCount);
-            IOCPToken token = tokenPool.Pop();
+            T token = tokenPool.Pop();
+            
             lock (tokenList)
             {
                 tokenList.Add(token);
             }
+            
             token.InitToken(saea.AcceptSocket);
             token.onTokenClose = OnTokenClose;
             IOCPTool.ColorLog(IOCPLogColor.Green, "Client Online, Allocate TokenID:{0}", token.tokenID);
@@ -124,7 +135,7 @@ namespace UIOCPNet
         /// <summary>
         /// 获取当前连接数量
         /// </summary>
-        public List<IOCPToken> GetTokenList()
+        public List<T> GetTokenList()
         {
             return tokenList;
         }
@@ -149,7 +160,7 @@ namespace UIOCPNet
 
 
         #region Client
-        public IOCPToken token;
+        public T token;
 
         /// <summary>
         /// 启动client
@@ -196,7 +207,7 @@ namespace UIOCPNet
         void ProcessConnect()
         {
             //IOCPTool.Log("连接成功");
-            token = new IOCPToken();
+            token = new T();
             token.InitToken(skt);
         }
         #endregion

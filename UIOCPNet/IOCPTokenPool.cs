@@ -13,14 +13,15 @@ namespace UIOCPNet
     /// <summary>
     /// IOCP会话连接token缓存池【使用的Stack缓存池的方式】
     /// </summary>
-    public class IOCPTokenPool
+    public class IOCPTokenPool<T,K>
+        where T: IOCPToken<K>, new()
+        where K:IOCPMsg,new()
     {
-        Stack<IOCPToken> stk;
+        Stack<T> stk;
         /// <summary>
         /// 池子中剩余token的数量
         /// </summary>
         public int Size => stk.Count;
-
 
 
         /// <summary>
@@ -29,7 +30,7 @@ namespace UIOCPNet
         /// <param name="capacity">设置池子初始容量</param>
         public IOCPTokenPool(int capacity)
         {
-            this.stk = new Stack<IOCPToken>(capacity);
+            this.stk = new Stack<T>(capacity);
         }
 
 
@@ -37,7 +38,7 @@ namespace UIOCPNet
         /// 取用一个token
         /// </summary>
         /// <returns></returns>
-        public IOCPToken Pop()
+        public T Pop()
         {
             lock (stk)
             {
@@ -49,7 +50,7 @@ namespace UIOCPNet
         /// 回收一个token
         /// </summary>
         /// <param name="token">要回收的token</param>
-        public void Push(IOCPToken token)
+        public void Push(T token)
         {
             if (token == null)
             {
