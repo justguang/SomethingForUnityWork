@@ -32,10 +32,13 @@ namespace UIOCPNet
     /// IOCP连接会话Token(session)；
     /// 网络消息接收方式：Socket.ReceiveAsync；
     /// 网络消息发送方式：Socket.SendAsync；
-    /// 消息接收缓冲2048个字节；
+    /// 消息接收缓冲2048个字节。
     /// </summary>
     public class IOCPToken
     {
+        /// <summary>
+        /// token ID
+        /// </summary>
         public int tokenID;
         /// <summary>
         /// token的连接状态
