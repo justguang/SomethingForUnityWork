@@ -3,7 +3,7 @@
 /// ClassName    ：  IOCPServer
 /// Author       ：  LCG
 /// CreateTime   ：  2022/6/20 星期一 
-/// Description  ：  基于IOCP封装的异步套接字通信，服务端
+/// Description  ：  基于IOCP封装的异步套接字通信
 ///********************************************/
 /// </summary>
 using System;
@@ -20,21 +20,23 @@ namespace UIOCPNet
     /// 协议 => Tcp；
     /// 接收连接方式 => Socket.AcceptAsync。
     /// </summary>
-    public class IOCPServer
+    public class IOCPNet
     {
         Socket skt;
-        SocketAsyncEventArgs saea;
-        IOCPTokenPool tokenPool;//会话token缓存池
-        List<IOCPToken> tokenList;//管理已连接的token
-        int curConnCount = 0;//当前连接数量
-        Semaphore acceptSemaphore;//连接信号量限制
-        public int backlog = 100;
-
-        public IOCPServer()
+        SocketAsyncEventArgs saea;//事件
+        public IOCPNet()
         {
             saea = new SocketAsyncEventArgs();
             saea.Completed += new EventHandler<SocketAsyncEventArgs>(IO_Completed);
         }
+
+
+        #region Server
+        public int backlog = 100;
+        int curConnCount = 0;//当前连接数量
+        IOCPTokenPool tokenPool;//会话token缓存池
+        List<IOCPToken> tokenList;//管理已连接的token
+        Semaphore acceptSemaphore;//连接信号量限制
 
         /// <summary>
         /// 启动server
@@ -63,7 +65,6 @@ namespace UIOCPNet
             IOCPTool.ColorLog(IOCPLogColor.Green, "Server Start...");
             StartAccept();
         }
-
         //开始异步接收连接
         void StartAccept()
         {
@@ -75,7 +76,6 @@ namespace UIOCPNet
                 ProcessAccept();
             }
         }
-
         //有个连接进来
         void ProcessAccept()
         {
@@ -90,7 +90,6 @@ namespace UIOCPNet
             IOCPTool.ColorLog(IOCPLogColor.Green, "Client Online, Allocate TokenID:{0}", token.tokenID);
             StartAccept();
         }
-
         //有个连接断开
         void OnTokenClose(int tokenID)
         {
@@ -122,7 +121,6 @@ namespace UIOCPNet
                 IOCPTool.Error("TokenID:{0} cannot find in server tokenList.", tokenID);
             }
         }
-
         /// <summary>
         /// 获取当前连接数量
         /// </summary>
@@ -130,7 +128,6 @@ namespace UIOCPNet
         {
             return tokenList;
         }
-
         /// <summary>
         /// 关闭server
         /// </summary>
@@ -148,10 +145,78 @@ namespace UIOCPNet
                 skt = null;
             }
         }
+        #endregion
 
+
+        #region Client
+        public IOCPToken token;
+
+        /// <summary>
+        /// 启动client
+        /// </summary>
+        /// <param name="ip">连接的ip</param>
+        /// <param name="port">端口</param>
+        public void StartAsClient(string ip, int port)
+        {
+            IPEndPoint pt = new IPEndPoint(IPAddress.Parse(ip), port);
+            skt = new Socket(pt.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+            saea.RemoteEndPoint = pt;
+
+            IOCPTool.ColorLog(IOCPLogColor.Green, "Client Start...");
+            StartConnect();
+        }
+        /// <summary>
+        /// 关闭client
+        /// </summary>
+        public void CloseClient()
+        {
+            if (token != null)
+            {
+                token.CloseToken();
+                token = null;
+            }
+            if (skt != null)
+            {
+                skt = null;
+            }
+        }
+        //开始异步连接
+        void StartConnect()
+        {
+            bool suspend = skt.ConnectAsync(saea);
+            if (suspend == false)
+            {
+                ProcessConnect();
+            }
+            else
+            {
+                IOCPTool.Log("连接挂起");
+            }
+        }
+        void ProcessConnect()
+        {
+            //IOCPTool.Log("连接成功");
+            token = new IOCPToken();
+            token.InitToken(skt);
+        }
+        #endregion
+
+
+        //事件
         void IO_Completed(object sender, SocketAsyncEventArgs saea)
         {
-            ProcessAccept();
+            switch (saea.LastOperation)
+            {
+                case SocketAsyncOperation.Accept:
+                    ProcessAccept();
+                    break;
+                case SocketAsyncOperation.Connect:
+                    ProcessConnect();
+                    break;
+                default:
+                    IOCPTool.Warn("The last operation completed on the socket was not a Accept or Connect op.");
+                    break;
+            }
         }
     }
 }

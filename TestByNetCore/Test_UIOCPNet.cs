@@ -18,7 +18,7 @@ namespace Test
         public void Init()
         {
 
-            IOCPServer server = new IOCPServer();
+            IOCPNet server = new IOCPNet();
             server.StartAsServer("192.168.1.122", 19021, 1000);
 
             while (true)
