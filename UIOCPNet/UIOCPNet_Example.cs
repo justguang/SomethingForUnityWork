@@ -12,6 +12,9 @@ namespace UIOCPNet
 {
 
     #region 网络数据协议消息体
+    /// <summary>
+    /// 网络数据协议消息体
+    /// </summary>
     [Serializable]
     public class NetMsg : IOCPMsg
     {
