@@ -45,12 +45,18 @@ namespace UIOCPNet
         /// </summary>
         public TokenState tokenState = TokenState.None;
 
+        /// <summary>
+        /// 当token关闭并回收时回调
+        /// </summary>
+        public Action<int> onTokenClose;
+
         Socket skt;
         SocketAsyncEventArgs rcvSAEA;//接收数据事件
         SocketAsyncEventArgs sndSAEA;//发送数据事件
         Queue<byte[]> cacheQue = new Queue<byte[]>();//发送时缓存的队列
-        bool isWrite = false;//是否在写入(发送)数据
         List<byte> readList = new List<byte>();//接收到的网络消息
+        bool isWrite = false;//是否在写入(发送)数据
+
 
         public IOCPToken()
         {
@@ -196,6 +202,8 @@ namespace UIOCPNet
             {
                 tokenState = TokenState.DisConnected;
                 OnDisConnected();
+                onTokenClose?.Invoke(tokenID);
+
                 readList.Clear();
                 cacheQue.Clear();
                 isWrite = false;
