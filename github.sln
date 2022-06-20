@@ -13,11 +13,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UMath", "UMath\UMath.csproj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UPhysx", "UPhysx\UPhysx.csproj", "{97730904-F858-46F3-B013-B8CB5706AF21}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UKCP", "UKCP\UKCP.csproj", "{C13892FF-C5A7-4776-8366-B81E53B95B18}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UKCP", "UKCP\UKCP.csproj", "{C13892FF-C5A7-4776-8366-B81E53B95B18}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UKCPExampleProtocol", "UKCPExampleProtocol\UKCPExampleProtocol.csproj", "{7CBB0BCC-DF47-41D5-94B6-D07008B38ADC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UKCPExampleProtocol", "UKCPExampleProtocol\UKCPExampleProtocol.csproj", "{7CBB0BCC-DF47-41D5-94B6-D07008B38ADC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestByNetFramework", "TestByNetFramework\TestByNetFramework.csproj", "{DE07932E-06A7-4948-929D-6437D9CE3CE6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UIOCPNet", "UIOCPNet\UIOCPNet.csproj", "{DD19FD8E-CD93-46B4-B40A-255356055179}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{DE07932E-06A7-4948-929D-6437D9CE3CE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE07932E-06A7-4948-929D-6437D9CE3CE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE07932E-06A7-4948-929D-6437D9CE3CE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD19FD8E-CD93-46B4-B40A-255356055179}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD19FD8E-CD93-46B4-B40A-255356055179}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD19FD8E-CD93-46B4-B40A-255356055179}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD19FD8E-CD93-46B4-B40A-255356055179}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
