@@ -134,7 +134,7 @@ namespace UIOCPNet
             }
         }
         /// <summary>
-        /// 获取当前连接数量
+        /// 获取当前所有连接
         /// </summary>
         public List<T> GetTokenList()
         {
