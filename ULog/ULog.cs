@@ -306,7 +306,8 @@ namespace ULogs
             }
             else
             {
-                string prefix = DateTime.Now.ToString("yyyyMMdd@HH-mm-ss.ffff");
+                //string prefix = DateTime.Now.ToString("yyyyMMdd@HH-mm-ss.ffff");
+                string prefix = DateTime.Now.ToString("yyyy-MM-dd@");
                 string path = cfg.savePath + prefix + cfg.saveName;
                 try
                 {
