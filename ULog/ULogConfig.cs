@@ -85,6 +85,9 @@ namespace ULogs
         /// 日志保存的路径【默认当前运行程序的更目录下Logs文件夹下】
         /// </summary>
         private string _savePath;
+        /// <summary>
+        /// 日志文件保存路径
+        /// </summary>
         public string savePath
         {
             get

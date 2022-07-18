@@ -306,7 +306,7 @@ namespace ULogs
             }
             else
             {
-                string prefix = DateTime.Now.ToString("yyyyMMdd@HH-mm-ss");
+                string prefix = DateTime.Now.ToString("yyyyMMdd@HH-mm-ss.ffff");
                 string path = cfg.savePath + prefix + cfg.saveName;
                 try
                 {
@@ -508,7 +508,7 @@ namespace ULogs
             if (cfg.enableTime)
             {
                 //时间格式   时：分：秒.毫秒
-                sb.AppendFormat(" {0}", DateTime.Now.ToString("hh:mm:ss.fff"));
+                sb.AppendFormat(" {0}", DateTime.Now.ToString("HH:mm:ss.ffff"));
             }
             if (cfg.enableThreadID)
             {
