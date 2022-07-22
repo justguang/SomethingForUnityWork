@@ -115,7 +115,7 @@ namespace ULogs
         /// <summary>
         /// 日志文件保存的名字
         /// </summary>
-        public string saveName = "ConsoleULog.txt";
+        public string saveName = "ULog.txt";
 
     }
 
