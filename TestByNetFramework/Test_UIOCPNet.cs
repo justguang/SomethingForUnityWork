@@ -17,7 +17,8 @@ namespace TestByNetFramework
         public void Init()
         {
             IOCPNet<UIOCPNet_Example,NetMsg> client = new IOCPNet<UIOCPNet_Example, NetMsg>();
-            client.StartAsClient("192.168.1.122", 19021);
+            //client.StartAsClient("192.168.1.122", 19021);
+            client.StartAsClient("43.138.26.253", 7799);//43.138.26.253
 
             while (true)
             {

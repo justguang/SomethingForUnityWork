@@ -19,7 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UKCPExampleProtocol", "UKCP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestByNetFramework", "TestByNetFramework\TestByNetFramework.csproj", "{DE07932E-06A7-4948-929D-6437D9CE3CE6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UIOCPNet", "UIOCPNet\UIOCPNet.csproj", "{DD19FD8E-CD93-46B4-B40A-255356055179}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UIOCPNet", "UIOCPNet\UIOCPNet.csproj", "{DD19FD8E-CD93-46B4-B40A-255356055179}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UAOICell", "UAOICell\UAOICell.csproj", "{BB7FB62A-F83B-4B93-A72F-53FAAD631969}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{DD19FD8E-CD93-46B4-B40A-255356055179}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DD19FD8E-CD93-46B4-B40A-255356055179}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DD19FD8E-CD93-46B4-B40A-255356055179}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB7FB62A-F83B-4B93-A72F-53FAAD631969}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB7FB62A-F83B-4B93-A72F-53FAAD631969}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB7FB62A-F83B-4B93-A72F-53FAAD631969}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB7FB62A-F83B-4B93-A72F-53FAAD631969}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
