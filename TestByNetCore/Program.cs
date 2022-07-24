@@ -9,8 +9,8 @@ namespace Test
         static void Main(string[] args)
         {
             //## test ULog
-            //Test_ULog test_ULog = new Test_ULog();
-            //test_ULog.Init();
+            Test_ULog test_ULog = new Test_ULog();
+            test_ULog.Init();
             //end
 
 
@@ -43,8 +43,8 @@ namespace Test
             //end
 
             //## test Socket
-            Test_ServerSkt client = new Test_ServerSkt();
-            client.Init("192.168.1.122", 19021);
+            //Test_ServerSkt client = new Test_ServerSkt();
+            //client.Init("192.168.1.122", 19021);
             //end
 
             Console.WriteLine("## Test End on .Net Core##");

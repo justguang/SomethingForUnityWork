@@ -62,8 +62,6 @@ namespace Test
             r.Init();
 
 
-            Console.WriteLine("Hello World!");
-            Console.ReadKey();
         }
     }
 }
