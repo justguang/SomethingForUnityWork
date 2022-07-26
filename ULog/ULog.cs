@@ -559,7 +559,7 @@ namespace ULogs
             try
             {
                 //logFileWriter.WriteLine(msg);
-                logFileWriter.WriteLineAsync(msg);
+                logFileWriter?.WriteLineAsync(msg);
             }
             catch
             {
