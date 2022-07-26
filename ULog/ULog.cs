@@ -558,8 +558,8 @@ namespace ULogs
         {
             try
             {
-                //logFileWriter.WriteLine(msg);
-                logFileWriter?.WriteLineAsync(msg);
+                logFileWriter.WriteLine(msg);
+                //logFileWriter?.WriteLineAsync(msg);
             }
             catch
             {
