@@ -250,6 +250,8 @@ namespace ULogs
         /// 日志写入文件
         /// </summary>
         private static StreamWriter logFileWriter = null;
+
+
         /// <summary>
         /// 日志初始化
         /// </summary>
@@ -272,58 +274,6 @@ namespace ULogs
             {
                 logger = new UnityLogger();
             }
-
-            //是否保存日志
-            if (!cfg.enableSave)
-            {
-                return;
-            }
-
-            //是否覆盖日志
-            if (cfg.enableCover)
-            {
-                string path = cfg.savePath + cfg.saveName;
-                try
-                {
-                    if (Directory.Exists(cfg.savePath))
-                    {
-                        if (File.Exists(path))
-                        {
-                            File.Delete(path);
-                        }
-                    }
-                    else
-                    {
-                        Directory.CreateDirectory(cfg.savePath);
-                    }
-                    logFileWriter = File.AppendText(path);
-                    logFileWriter.AutoFlush = true;
-                }
-                catch
-                {
-                    logFileWriter = null;
-                }
-            }
-            else
-            {
-                //string prefix = DateTime.Now.ToString("yyyyMMdd@HH-mm-ss.ffff");
-                string prefix = DateTime.Now.ToString("yyyy-MM-dd@");
-                string path = cfg.savePath + prefix + cfg.saveName;
-                try
-                {
-                    if (!Directory.Exists(cfg.savePath))
-                    {
-                        Directory.CreateDirectory(cfg.savePath);
-                    }
-                    logFileWriter = File.AppendText(path);
-                    logFileWriter.AutoFlush = true;
-                }
-                catch
-                {
-                    logFileWriter = null;
-                }
-            }
-
 
         }
 
@@ -556,14 +506,52 @@ namespace ULogs
         /// <param name="msg">要写的内容</param>
         private static void WriteToFile(string msg)
         {
-            try
+            if (!cfg.enableSave) return;
+
+            //覆盖原有日志
+            if (cfg.enableCover)
             {
-                logFileWriter.WriteLine(msg);
-                //logFileWriter?.WriteLineAsync(msg);
+                string coverPath = cfg.savePath + cfg.saveName;
+                try
+                {
+                    if (Directory.Exists(cfg.savePath))
+                    {
+                        if (File.Exists(coverPath))
+                        {
+                            File.Delete(coverPath);
+                        }
+                    }
+                    else
+                    {
+                        Directory.CreateDirectory(cfg.savePath);
+                    }
+
+                    File.AppendAllText(coverPath, msg + "\n", Encoding.UTF8);
+                }
+                catch (Exception e)
+                {
+                    //
+                }
             }
-            catch
+            else
             {
-                logFileWriter = null;
+                //不覆盖原有日志内容
+
+                string prefix = DateTime.Now.ToString("yyyy-MM-dd@");
+                string fileName = prefix + cfg.saveName;
+                try
+                {
+                    if (!Directory.Exists(cfg.savePath))
+                    {
+                        Directory.CreateDirectory(cfg.savePath);
+                    }
+
+                    File.AppendAllText(cfg.savePath + fileName, msg + "\n", Encoding.UTF8);
+                }
+                catch (Exception e)
+                {
+                    //
+                }
             }
 
         }

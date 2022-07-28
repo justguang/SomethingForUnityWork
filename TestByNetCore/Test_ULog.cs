@@ -46,7 +46,15 @@ namespace Test
     {
         public void Init()
         {
-            ULog.InitSetting();
+            ULog.InitSetting(new ULogConfig
+            {
+                enableLog = true,
+                enableSave = true,
+                enableTrace = true,
+                enableTime = true,
+                enableCover = false,
+                saveName = "testULog.txt",
+            });
 
             ULog.Log("【Log】  六六六!!! {0}", "ServerLCGLog");
             ULog.ColorLog(ULogColor.Blue, "【ColorLog】  六六六!!! color=> {0}={1}", "ColorLog.Blue", ULogColor.Blue);
