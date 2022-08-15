@@ -70,7 +70,7 @@ namespace UTimers
             {
                 if (taskDic.Remove(tid))
                 {
-                    task.cancelCallback(tid);
+                    task?.cancelCallback?.Invoke(tid);
                     return true;
                 }
                 else
@@ -114,7 +114,7 @@ namespace UTimers
                 FrameTask task = taskDic[key];
                 if (task.destFrame <= currentFrame)
                 {
-                    task.taskCallback.Invoke(task.tid);
+                    task?.taskCallback?.Invoke(task.tid);
                     task.destFrame += task.delay;
                     --task.count;
                     if (task.count == 0)
@@ -127,7 +127,8 @@ namespace UTimers
 
             for (int i = 0; i < tidList.Count; i++)
             {
-                if (taskDic.Remove(tidList[i])){
+                if (taskDic.Remove(tidList[i]))
+                {
                     LogFunc?.Invoke($"Task tid:{tidList[i]} run to completion.");
                 }
                 else
