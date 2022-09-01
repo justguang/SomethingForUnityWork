@@ -16,7 +16,7 @@ using System.Threading;
 /// <summary>
 /// ULog扩展
 /// </summary>
-public static class ExtensionMethods
+public static class ULogExtensionMethods
 {
     /// <summary>
     /// 打印普通日志

@@ -52,7 +52,7 @@ namespace UTimers
         /// <param name="delay">每次任务循环开始执行的延迟时间【单位毫秒】</param>
         /// <param name="taskCallBack">任务执行时回调</param>
         /// <param name="cancelCallBack">任务取消时回调</param>
-        /// <param name="count">指定任务循环多少次【默认1次】</param>
+        /// <param name="count">指定任务循环多少次【默认1次】, -1无限循环</param>
         /// <returns>返回该任务的id</returns>
         public override int AddTask(
             uint delay,
