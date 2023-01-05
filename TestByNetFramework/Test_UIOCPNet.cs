@@ -7,6 +7,10 @@
 ///********************************************/
 /// </summary>
 using System;
+using System.IO;
+using System.Net;
+using System.Net.Http;
+using System.Text;
 using UIOCPNet;
 
 namespace TestByNetFramework
@@ -14,23 +18,25 @@ namespace TestByNetFramework
     public class Test_UIOCPNet
     {
 
+        
         public void Init()
         {
-            IOCPNet<UIOCPNet_Example,NetMsg> client = new IOCPNet<UIOCPNet_Example, NetMsg>();
-            //client.StartAsClient("192.168.1.122", 19021);
-            client.StartAsClient("43.138.26.253", 7799);//43.138.26.253
+
+            IOCPNet<UIOCPNet_Example, NetMsg> net = new IOCPNet<UIOCPNet_Example, NetMsg>();
+            //net.StartAsClient("103.46.128.44", 40707);
+            net.StartAsServer("127.0.0.1", 19022,1000);
 
             while (true)
             {
                 string ipt = Console.ReadLine();
                 if (ipt == "quit")
                 {
-                    client.CloseClient();
+                    net.CloseClient();
                     break;
                 }
                 else
                 {
-                    client.token.SendMsg(new NetMsg
+                    net.token.SendMsg(new NetMsg
                     {
                         msg = ipt,
                     });

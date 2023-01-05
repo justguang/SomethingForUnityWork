@@ -68,11 +68,24 @@ namespace UIOCPNet
 
             IPEndPoint pt = new IPEndPoint(IPAddress.Parse(ip), port);
             skt = new Socket(pt.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-            skt.Bind(pt);
-            skt.Listen(backlog);
+            bool IsStart = false;
+            try
+            {
+                skt.Bind(pt);
+                skt.Listen(backlog);
+                IsStart = true;
+            }
+            catch (Exception e)
+            {
+                IOCPTool.Error(e.ToString());
+                //
+            }
 
-            IOCPTool.ColorLog(IOCPLogColor.Green, "Server Start...");
-            StartAccept();
+            if (IsStart)
+            {
+                IOCPTool.ColorLog(IOCPLogColor.Green, "Server Start...   port[{0}]", port);
+                StartAccept();
+            }
         }
         //开始异步接收连接
         void StartAccept()
@@ -91,12 +104,12 @@ namespace UIOCPNet
         {
             Interlocked.Increment(ref curConnCount);
             T token = tokenPool.Pop();
-            
+
             lock (tokenList)
             {
                 tokenList.Add(token);
             }
-            
+
             token.InitToken(saea.AcceptSocket);
             token.onTokenClose = OnTokenClose;
             IOCPTool.ColorLog(IOCPLogColor.Green, "Client Online, Allocate TokenID:{0}", token.tokenID);
@@ -174,7 +187,7 @@ namespace UIOCPNet
             skt = new Socket(pt.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
             saea.RemoteEndPoint = pt;
 
-            IOCPTool.ColorLog(IOCPLogColor.Green, "Client Start...");
+            IOCPTool.ColorLog(IOCPLogColor.Green, "Client Start...   port[{0}]", port);
             StartConnect();
         }
         /// <summary>

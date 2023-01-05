@@ -147,7 +147,7 @@ namespace UTimers
                     ++tid;
                     if (tid == int.MaxValue)
                     {
-                        tid = 0;
+                        tid = 1;
                     }
                     if (!taskDic.ContainsKey(tid))
                     {

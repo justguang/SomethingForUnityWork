@@ -38,10 +38,10 @@ namespace UTimers
         /// <summary>
         /// 实例化timer
         /// </summary>
-        /// <param name="interval">任务驱动器每次驱动(任务列表轮询)的间隔时间【默认0，单位毫秒】</param>
-        /// <param name="setHandle">默认true，如果为true则需要使用者在外部update中调用
+        /// <param name="interval">任务驱动器每次驱动(任务列表轮询)的间隔时间【默认20，单位毫秒】</param>
+        /// <param name="setHandle">默认false，如果为true则需要使用者在外部update中调用
         /// [HandleTask]驱动；如果为false，则tiemr内部update驱动</param>
-        public TickTimer(int interval = 0, bool setHandle = true)
+        public TickTimer(int interval = 20, bool setHandle = false)
         {
             this.setHandle = setHandle;
             taskDic = new ConcurrentDictionary<int, TickTask>();
@@ -229,7 +229,7 @@ namespace UTimers
                     ++tid;
                     if (tid == int.MaxValue)
                     {
-                        tid = 0;
+                        tid = 1;
                     }
                     if (!taskDic.ContainsKey(tid))
                     {

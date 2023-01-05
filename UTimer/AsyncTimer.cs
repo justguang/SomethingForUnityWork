@@ -31,6 +31,8 @@ namespace UTimers
         private ConcurrentQueue<AsyncTaskPack> packQue;
         private bool setHandle;
         private const string tidLock = "AsyncTimer_tidLock";
+        
+        private CancellationTokenSource cts;
 
         /// <summary>
         /// 实例化 AsyncTimer
@@ -44,6 +46,9 @@ namespace UTimers
             {
                 packQue = new ConcurrentQueue<AsyncTaskPack>();
             }
+            
+            if (this.cts != null) this.cts.Cancel();
+            this.cts = new CancellationTokenSource();
         }
 
         /// <summary>
@@ -119,6 +124,14 @@ namespace UTimers
             }
             taskDic.Clear();
             tid = 0;
+
+            if (this.cts != null)
+            {
+                this.cts.Cancel();
+                this.cts.Dispose();
+                this.cts = null;
+            }
+
         }
 
         /// <summary>
@@ -177,7 +190,7 @@ namespace UTimers
                         CallBackTaskCB(task);
                     }
                 }
-            });
+            },this.cts.Token);
         }
 
         void CallBackTaskCB(AsyncTask task)
@@ -213,7 +226,7 @@ namespace UTimers
                     ++tid;
                     if (tid == int.MaxValue)
                     {
-                        tid = 0;
+                        tid = 1;
                     }
                     if (!taskDic.ContainsKey(tid))
                     {

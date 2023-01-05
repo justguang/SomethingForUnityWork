@@ -7,6 +7,7 @@
 ///********************************************/
 /// </summary>
 using System;
+using System.Collections.Generic;
 
 namespace UIOCPNet
 {
@@ -41,6 +42,9 @@ namespace UIOCPNet
         protected override void OnReceiveMsg(NetMsg msg)
         {
             IOCPTool.Log("ReceiveMsg：" + msg.msg);
+
         }
+
+
     }
 }

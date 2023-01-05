@@ -39,8 +39,8 @@ namespace Test
 
 
             //## test UIOCPNet
-            //Test_UIOCPNet test_UIOCP = new Test_UIOCPNet();
-            //test_UIOCP.Init();
+            Test_UIOCPNet test_UIOCP = new Test_UIOCPNet();
+            test_UIOCP.Init();
             //end
 
             //## test Socket
@@ -49,7 +49,7 @@ namespace Test
             //end
 
 
-            Console.WriteLine("## Test End on .Net Core##");
+            //Console.WriteLine("## Test End on .Net Core##");
             Console.ReadKey();
         }
     }

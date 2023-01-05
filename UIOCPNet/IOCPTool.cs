@@ -8,9 +8,11 @@
 /// </summary>
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Text;
 using System.Threading;
 
 namespace UIOCPNet
@@ -87,7 +89,7 @@ namespace UIOCPNet
         /// 反序列化
         /// </summary>
         /// <param name="bytes">要反序列化的字节数组</param>
-        public static T DesSerialize<T>(byte[] bytes) where T:IOCPMsg
+        public static T DesSerialize<T>(byte[] bytes) where T : IOCPMsg
         {
             T msg = null;
             MemoryStream ms = new MemoryStream(bytes);
@@ -107,7 +109,7 @@ namespace UIOCPNet
             return msg;
         }
 
-        #region LOG
+        #region LOG日志
         public static Action<string> LogFunc;
         public static Action<IOCPLogColor, string> ColorLogFunc;
         public static Action<string> WarnFunc;
@@ -116,6 +118,7 @@ namespace UIOCPNet
         public static void Log(string msg, params object[] args)
         {
             msg = string.Format(msg, args);
+            msg = Decorate(msg);
             if (LogFunc != null)
             {
                 LogFunc(msg);
@@ -124,10 +127,13 @@ namespace UIOCPNet
             {
                 ConsoleLog(msg, IOCPLogColor.None);
             }
+
+            WriteToFile(msg);
         }
         public static void ColorLog(IOCPLogColor color, string msg, params object[] args)
         {
             msg = string.Format(msg, args);
+            msg = "【ColorLog】" + Decorate(msg);
             if (ColorLogFunc != null)
             {
                 ColorLogFunc(color, msg);
@@ -136,10 +142,13 @@ namespace UIOCPNet
             {
                 ConsoleLog(msg, color);
             }
+
+            WriteToFile(msg);
         }
         public static void Warn(string msg, params object[] args)
         {
             msg = string.Format(msg, args);
+            msg = "【Warn】" + Decorate(msg) + "\nStackTrace：" + GetLogTrace();
             if (WarnFunc != null)
             {
                 WarnFunc(msg);
@@ -148,10 +157,12 @@ namespace UIOCPNet
             {
                 ConsoleLog(msg, IOCPLogColor.Yellow);
             }
+            WriteToFile(msg);
         }
         public static void Error(string msg, params object[] args)
         {
             msg = string.Format(msg, args);
+            msg = "【Error】" + Decorate(msg) + "\nStackTrace：" + GetLogTrace();
             if (ErrorFunc != null)
             {
                 ErrorFunc(msg);
@@ -160,6 +171,7 @@ namespace UIOCPNet
             {
                 ConsoleLog(msg, IOCPLogColor.Red);
             }
+            WriteToFile(msg);
         }
         static void ConsoleLog(string msg, IOCPLogColor color)
         {
@@ -203,10 +215,85 @@ namespace UIOCPNet
                     break;
             }
         }
+
+
+        //修饰内容
+        static string Decorate(string msg)
+        {
+            int threadID = Thread.CurrentThread.ManagedThreadId;
+            string time = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.ffff");
+            msg = string.Format("[{0}] ThreadID:{1} >> {2}", time, threadID, msg);
+            return msg;
+        }
+
+
+        //获取堆栈信息
+        static string GetLogTrace()
+        {
+            StackTrace st = new StackTrace(2, true);
+            string traceInfo = "";
+            for (int i = 0; i < st.FrameCount; i++)
+            {
+                StackFrame tempSF = st.GetFrame(i);
+                traceInfo += string.Format("\n {0}::{1} line:{2}", tempSF.GetFileName(), tempSF.GetMethod(), tempSF.GetFileLineNumber());
+            }
+            return traceInfo;
+        }
         #endregion
 
+        #region 保存日志到文件
+        static bool enableSaveToFile;//true【开启保存日志到本地文件】，false不开启
+        static string saveFileName = "IOCPLog.txt";//保存的文件名
+        static string savePath;//日志文件保存路径
+        public static void EnableLogSaveToFile(string fileName = null)
+        {
+            if (!string.IsNullOrEmpty(fileName))
+            {
+                fileName = fileName.Trim();
+                string tmp = fileName.Substring(fileName.Length - 4, 4);
+                if (!tmp.Contains(".txt"))
+                {
+                    fileName += ".txt";
+                }
+                saveFileName = fileName;
 
+
+                enableSaveToFile = true;
+                savePath = string.Format("{0}Log\\", AppDomain.CurrentDomain.BaseDirectory);
+
+                try
+                {
+                    if (!Directory.Exists(savePath))
+                    {
+                        Directory.CreateDirectory(savePath);
+                    }
+                }
+                catch
+                {
+                    //
+                }
+            }
+        }
+
+        //写入文件
+        static void WriteToFile(string msg)
+        {
+            if (!enableSaveToFile) return;
+
+            string prefix = DateTime.Now.ToString("yyyy-MM-dd@");
+            string fileName = prefix + saveFileName;
+            try
+            {
+                File.AppendAllText(savePath + fileName, msg + "\n", Encoding.UTF8);
+            }
+            catch (Exception e)
+            {
+                //
+            }
+        }
+        #endregion
     }
+
 
     /// <summary>
     /// 日志颜色
