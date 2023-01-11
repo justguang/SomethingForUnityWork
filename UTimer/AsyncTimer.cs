@@ -1,9 +1,9 @@
-﻿/// <summary>
+/// <summary>
 ///********************************************
 /// ClassName    ：  AsyncTimer
 /// Author       ：  LCG
 /// CreateTime   ：  2022/6/18 星期六
-/// Description  ：  使用Async await语法驱动，运行在线程池中，可设置多线程或逻辑主线回调任务
+/// Description  ：  使用Async await语法驱动，运行在线程池中
 ///********************************************/
 /// </summary>
 using System;
@@ -27,28 +27,16 @@ namespace UTimers
             }
         }
 
-        private readonly ConcurrentDictionary<int, AsyncTask> taskDic;
-        private ConcurrentQueue<AsyncTaskPack> packQue;
-        private bool setHandle;
+        private readonly ConcurrentDictionary<int, CancellationTokenSource> taskCancelDic;
         private const string tidLock = "AsyncTimer_tidLock";
-        
-        private CancellationTokenSource cts;
 
         /// <summary>
-        /// 实例化 AsyncTimer
+        /// 实例化 AsyncTimer，运行在线程池
         /// </summary>
         /// <param name="setHandle">如设置的setHandle=true，使用者需在外部update调用此函数驱动任务</param>
-        public AsyncTimer(bool setHandle = false)
+        public AsyncTimer()
         {
-            this.setHandle = setHandle;
-            taskDic = new ConcurrentDictionary<int, AsyncTask>();
-            if (setHandle)
-            {
-                packQue = new ConcurrentQueue<AsyncTaskPack>();
-            }
-            
-            if (this.cts != null) this.cts.Cancel();
-            this.cts = new CancellationTokenSource();
+            this.taskCancelDic = new ConcurrentDictionary<int, CancellationTokenSource>();
         }
 
         /// <summary>
@@ -57,7 +45,7 @@ namespace UTimers
         /// <param name="delay">每次任务循环开始执行的延迟时间【单位毫秒】</param>
         /// <param name="taskCallBack">任务执行时回调</param>
         /// <param name="cancelCallBack">任务取消时回调</param>
-        /// <param name="count">指定任务循环多少次【默认1次】, -1无限循环</param>
+        /// <param name="count">指定任务循环多少次【默认1次, -1无限循环】</param>
         /// <returns>返回该任务的id</returns>
         public override int AddTask(
             uint delay,
@@ -67,15 +55,16 @@ namespace UTimers
         {
             int tid = GenerateId();
             AsyncTask task = new AsyncTask(tid, delay, count, taskCallBack, cancelCallBack);
-            RunTaskInPool(task);
+            CancellationTokenSource cts = new CancellationTokenSource();
 
-            if (taskDic.TryAdd(tid, task))
+            if (this.taskCancelDic.TryAdd(tid, cts))
             {
+                RunTaskInPool(task, cts.Token);
                 return tid;
             }
             else
             {
-                WarnFunc?.Invoke($"KEY:{tid} already exist~!");
+                WarnFunc?.Invoke($"[AsyncTimer] 定时任务id:{tid} 已存在~!");
                 return -1;
             }
 
@@ -88,25 +77,16 @@ namespace UTimers
         /// <returns>删除成功返回true</returns>
         public override bool DelTask(int tid)
         {
-            if (taskDic.TryRemove(tid, out AsyncTask task))
+            if (this.taskCancelDic.TryRemove(tid, out CancellationTokenSource cts))
             {
-                LogFunc?.Invoke($"Remove tid:{tid} task in taskDic success.");
-                task.cts.Cancel();
-
-                if (setHandle && task.cancelCallBack != null)
-                {
-                    packQue.Enqueue(new AsyncTaskPack(task.tid, task.cancelCallBack));
-                }
-                else
-                {
-                    task.cancelCallBack?.Invoke(task.tid);
-                }
+                LogFunc?.Invoke($"[AsyncTimer] 删除定时任务 id:{tid} 成功.");
+                cts.Cancel();
 
                 return true;
             }
             else
             {
-                ErrorFunc?.Invoke($"Remove tid:{tid} task in taskDic failed.");
+                ErrorFunc?.Invoke($"[AsyncTimer] Remove tid:{tid} task in taskDic failed.");
                 return false;
             }
 
@@ -118,41 +98,21 @@ namespace UTimers
         /// </summary>
         public override void Reset()
         {
-            if (packQue != null && !packQue.IsEmpty)
+            Thread thread = new Thread(new ThreadStart(() =>
             {
-                WarnFunc?.Invoke("Call Queue is not Empty.");
-            }
-            taskDic.Clear();
-            tid = 0;
-
-            if (this.cts != null)
-            {
-                this.cts.Cancel();
-                this.cts.Dispose();
-                this.cts = null;
-            }
-
+                foreach (var item in taskCancelDic)
+                {
+                    item.Value.Cancel();
+                }
+                taskCancelDic.Clear();
+                tid = 0;
+            }));
+            thread.IsBackground = true;
+            thread.Priority = ThreadPriority.Highest;
+            thread.Start();
         }
 
-        /// <summary>
-        /// 如实例化AsyncTimer定时器，参数setHandle设置为true，使用者需在外部update调用此函数驱动定时任务执行回调
-        /// </summary>
-        public void UpdateHandleTask()
-        {
-            if (packQue != null && packQue.Count > 0)
-            {
-                if (packQue.TryDequeue(out AsyncTaskPack pack))
-                {
-                    pack.cb?.Invoke(pack.tid);
-                }
-                else
-                {
-                    WarnFunc?.Invoke($"packQue dequeue data failed.");
-                }
-            }
-        }
-
-        void RunTaskInPool(AsyncTask task)
+        void RunTaskInPool(AsyncTask task, CancellationToken cancelTokan)
         {
             Task.Run(async () =>
             {
@@ -170,6 +130,14 @@ namespace UTimers
                         }
                         TimeSpan ts = DateTime.UtcNow - task.startTime;
                         task.fixDelta = (int)(task.delay * task.loopIndex - ts.TotalMilliseconds);
+
+                        if (cancelTokan.IsCancellationRequested)
+                        {
+                            //任务取消
+                            WarnFunc?.Invoke($"[AsyncTimer] 定时任务 id={task.tid} 取消");
+                            task.cancelCallBack?.Invoke(task.tid);
+                            return;
+                        }
                         CallBackTaskCB(task);
                     } while (task.count > 0);
 
@@ -187,32 +155,34 @@ namespace UTimers
                         }
                         TimeSpan ts = DateTime.UtcNow - task.startTime;
                         task.fixDelta = (int)(task.delay * task.loopIndex - ts.TotalMilliseconds);
+
+                        if (cancelTokan.IsCancellationRequested)
+                        {
+                            //任务取消
+                            WarnFunc?.Invoke($"[AsyncTimer] 定时任务 id={task.tid} 取消");
+                            task.cancelCallBack?.Invoke(task.tid);
+                            return;
+                        }
                         CallBackTaskCB(task);
                     }
                 }
-            },this.cts.Token);
+            }, cancelTokan);
         }
+
 
         void CallBackTaskCB(AsyncTask task)
         {
-            if (setHandle)
-            {
-                packQue.Enqueue(new AsyncTaskPack(task.tid, task.taskCallBack));
-            }
-            else
-            {
-                task.taskCallBack.Invoke(task.tid);
-            }
+            task.taskCallBack.Invoke(task.tid);
 
             if (task.count == 0)
             {
-                if (taskDic.TryRemove(task.tid, out AsyncTask temp))
+                if (taskCancelDic.TryRemove(task.tid, out CancellationTokenSource cts))
                 {
-                    LogFunc?.Invoke($"Task tid:{task.tid} tun to completion.");
+                    LogFunc?.Invoke($"[AsyncTimer] 定时任务 id:{task.tid} 执行完成.");
                 }
                 else
                 {
-                    ErrorFunc?.Invoke($"Remove tid:{task.tid} task in taskDic failed.");
+                    ErrorFunc?.Invoke($"[AsyncTimer] Remove tid:{task.tid} task in taskDic failed.");
                 }
             }
         }
@@ -228,7 +198,7 @@ namespace UTimers
                     {
                         tid = 1;
                     }
-                    if (!taskDic.ContainsKey(tid))
+                    if (!taskCancelDic.ContainsKey(tid))
                     {
                         return tid;
                     }

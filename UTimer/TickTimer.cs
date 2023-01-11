@@ -1,9 +1,9 @@
-﻿/// <summary>
+/// <summary>
 ///********************************************
 /// ClassName    ：  TickTimer
 /// Author       ：  LCG
 /// CreateTime   ：  2022/5/10 星期二 
-/// Description  ：  毫秒级的精确定时器
+/// Description  ：  毫秒级的精确定时器，后台单线程轮询任务列表
 ///********************************************/
 /// </summary>
 using System;
@@ -36,7 +36,7 @@ namespace UTimers
         private readonly Thread timerThread;
 
         /// <summary>
-        /// 实例化timer
+        /// 实例化timer，后台单线程轮询任务列表执行任务
         /// </summary>
         /// <param name="interval">任务驱动器每次驱动(任务列表轮询)的间隔时间【默认20，单位毫秒】</param>
         /// <param name="setHandle">默认false，如果为true则需要使用者在外部update中调用
@@ -51,7 +51,7 @@ namespace UTimers
                 packQueue = new ConcurrentQueue<TickTaskPack>();
             }
 
-            if (interval != 0)
+            if (interval > 0)
             {
                 void StartTick()
                 {
@@ -70,6 +70,7 @@ namespace UTimers
                 }
 
                 timerThread = new Thread(new ThreadStart(StartTick));
+                timerThread.IsBackground = true;
                 timerThread.Start();
             }
         }
@@ -80,7 +81,7 @@ namespace UTimers
         /// <param name="delay">每次(循环)任务开始执行时的延时时间【单位毫秒】</param>
         /// <param name="taskCallBack">任务执行时的回调</param>
         /// <param name="cancelCallBack">任务取消时的回调</param>
-        /// <param name="count">指定该任务循环多少次【默认1次】</param>
+        /// <param name="count">指定该任务循环多少次【默认1次,-1无限次】</param>
         /// <returns>返回该任务的id</returns>
         public override int AddTask(uint delay, Action<int> taskCallBack, Action<int> cancelCallBack, int count = 1)
         {
@@ -94,7 +95,7 @@ namespace UTimers
             }
             else
             {
-                WarnFunc?.Invoke($"KEY:{tid} already exist~!");
+                WarnFunc?.Invoke($"[TickTimer] 定时任务 id: {tid} 已存在~!");
                 return -1;
             }
 
@@ -121,7 +122,7 @@ namespace UTimers
             }
             else
             {
-                WarnFunc?.Invoke($"tid:{tid} remove failed.");
+                WarnFunc?.Invoke($"[TickTimer] tid:{tid} remove failed.");
                 return false;
             }
         }
@@ -131,9 +132,9 @@ namespace UTimers
         /// </summary>
         public override void Reset()
         {
-            if (!packQueue.IsEmpty)
+            if (packQueue != null && !packQueue.IsEmpty)
             {
-                WarnFunc?.Invoke($"callback queue is not empty.");
+                WarnFunc?.Invoke($"[TickTimer] callback queue is not empty.");
             }
 
             taskDic.Clear();
@@ -192,7 +193,7 @@ namespace UTimers
                 }
                 else
                 {
-                    ErrorFunc?.Invoke($"packQueue dequeue data Error!!!");
+                    ErrorFunc?.Invoke($"[TickTimer] packQueue dequeue data Error!!!");
                 }
             }
         }
@@ -206,7 +207,7 @@ namespace UTimers
             }
             else
             {
-                WarnFunc?.Invoke($"Remove tid:{tid} task in Dic failed.");
+                WarnFunc?.Invoke($"[TickTimer] Remove tid:{tid} task in Dic failed.");
             }
         }
         void CallTaskCB(int tid, Action<int> taskCB)

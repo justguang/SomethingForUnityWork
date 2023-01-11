@@ -1,9 +1,9 @@
-﻿/// <summary>
+/// <summary>
 ///********************************************
 /// ClassName    ：  FrameTimer
 /// Author       ：  LCG
 /// CreateTime   ：  2022/6/18 星期六
-/// Description  ：  使用外部帧循环驱动，并在帧循环中回调
+/// Description  ：  使用外部Update帧循环驱动，并在帧循环中回调
 ///********************************************/
 /// </summary>
 using System;
@@ -18,7 +18,7 @@ namespace UTimers
         private readonly Dictionary<int, FrameTask> taskDic;
         private const string tidLock = "FrameTimer_tidLock";
 
-        private List<int> tidList;
+        private List<int> tidCompleteList;
 
         /// <summary>
         /// 实例一个定时器（需要使用者在外部用update驱动）
@@ -28,7 +28,7 @@ namespace UTimers
         {
             currentFrame = frameID;
             taskDic = new Dictionary<int, FrameTask>();
-            tidList = new List<int>();
+            tidCompleteList = new List<int>();
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace UTimers
         /// <param name="delay">定时任务（每次循环)执行前延迟时间【毫秒】</param>
         /// <param name="taskCallBack">任务执行时回调</param>
         /// <param name="cancelCallBack">任务取消时回调</param>
-        /// <param name="count">任务循环执行次数【默认1次】</param>
+        /// <param name="count">任务循环执行次数【默认1次，-1表示无限次数】</param>
         /// <returns>添加成功返回任务的唯一id</returns>
         public override int AddTask(uint delay, Action<int> taskCallBack, Action<int> cancelCallBack, int count = 1)
         {
@@ -47,7 +47,7 @@ namespace UTimers
 
             if (taskDic.ContainsKey(tid))
             {
-                WarnFunc?.Invoke($"tid:{tid} already exist in taskDic.");
+                WarnFunc?.Invoke($"[FrameTimer] 定时任务 id: {tid} 已存在.");
                 return -1;
             }
             else
@@ -75,13 +75,13 @@ namespace UTimers
                 }
                 else
                 {
-                    ErrorFunc?.Invoke($"Remove tid:{tid} in taskDic failed.");
+                    ErrorFunc?.Invoke($"[FrameTimer] Remove tid:{tid} in taskDic failed.");
                     return false;
                 }
             }
             else
             {
-                WarnFunc?.Invoke($"tid:{tid} is not exist in taskDic.");
+                WarnFunc?.Invoke($"[FrameTimer] tid:{tid} is not exist in taskDic.");
                 return false;
             }
 
@@ -93,7 +93,7 @@ namespace UTimers
         public override void Reset()
         {
             taskDic.Clear();
-            tidList.Clear();
+            tidCompleteList.Clear();
             currentFrame = 0;
             tid = 0;
         }
@@ -104,7 +104,7 @@ namespace UTimers
         public void UpdateTask()
         {
             ++currentFrame;//每执行一次，代表已过一帧，当前帧id+1
-            tidList.Clear();
+            tidCompleteList.Clear();
 
             List<int> keyList = taskDic.Keys.ToList();
             int keyCount = keyList.Count;
@@ -119,21 +119,21 @@ namespace UTimers
                     --task.count;
                     if (task.count == 0)
                     {
-                        tidList.Add(task.tid);
+                        tidCompleteList.Add(task.tid);
                     }
                 }
             }
 
 
-            for (int i = 0; i < tidList.Count; i++)
+            for (int i = 0; i < tidCompleteList.Count; i++)
             {
-                if (taskDic.Remove(tidList[i]))
+                if (taskDic.Remove(tidCompleteList[i]))
                 {
-                    LogFunc?.Invoke($"Task tid:{tidList[i]} run to completion.");
+                    LogFunc?.Invoke($"[FrameTimer] 定时任务 id:{tidCompleteList[i]} 执行完成.");
                 }
                 else
                 {
-                    ErrorFunc?.Invoke($"Remove tid:{tidList[i]}  task in taskDic failed.");
+                    ErrorFunc?.Invoke($"[FrameTimer] Remove tid:{tidCompleteList[i]}  task in taskDic failed.");
                 }
             }
         }
