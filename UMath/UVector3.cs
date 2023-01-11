@@ -1,4 +1,4 @@
-﻿/// <summary>
+/// <summary>
 ///********************************************
 /// ClassName    ：  UVector3
 /// Author       ：  LCG

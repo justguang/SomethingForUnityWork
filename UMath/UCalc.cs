@@ -1,4 +1,4 @@
-﻿/// <summary>
+/// <summary>
 ///********************************************
 /// ClassName    ：  UCalc
 /// Author       ：  LCG
