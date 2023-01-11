@@ -1,4 +1,4 @@
-﻿/// <summary>
+/// <summary>
 ///********************************************
 /// ClassName    ：  UIOCPNet_Example
 /// Author       ：  LCG

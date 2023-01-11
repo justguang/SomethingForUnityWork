@@ -1,4 +1,4 @@
-﻿/// <summary>
+/// <summary>
 ///********************************************
 /// ClassName    ：  IOCPTool
 /// Author       ：  LCG
