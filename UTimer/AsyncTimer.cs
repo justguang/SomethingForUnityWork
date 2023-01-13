@@ -148,7 +148,7 @@ namespace UTimers
                         {
                             ErrorFunc?.Invoke("[AsyncTimer Error]");
                             ErrorFunc?.Invoke(e.ToString());
-                            task.cancelCallBack?.Invoke(task.tid);
+                            //task.cancelCallBack?.Invoke(task.tid);
                             return;
                         }
 
@@ -186,7 +186,7 @@ namespace UTimers
                         {
                             ErrorFunc?.Invoke("[AsyncTimer Error]");
                             ErrorFunc?.Invoke(e.ToString());
-                            task.cancelCallBack?.Invoke(task.tid);
+                            //task.cancelCallBack?.Invoke(task.tid);
                             return;
                         }
                     }
