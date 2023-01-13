@@ -33,7 +33,7 @@ namespace UTimers
         private const string tidLock = "TickTimer_tidLock";
 
 
-        private readonly Thread timerThread;
+        private Thread timerThread;
 
         /// <summary>
         /// 实例化timer，后台单线程轮询任务列表执行任务
@@ -59,13 +59,21 @@ namespace UTimers
                     {
                         while (true)
                         {
-                            UpdateTask();
-                            Thread.Sleep(interval);
+                            try
+                            {
+                                UpdateTask();
+                                Thread.Sleep(interval);
+                            }
+                            catch (Exception e)
+                            {
+                                if (e is ThreadAbortException||e is ThreadInterruptedException) throw e;
+                                ErrorFunc?.Invoke($"[TickTimer] Error:{e}");
+                            }
                         }
                     }
-                    catch (ThreadAbortException e)
+                    catch (Exception e)
                     {
-                        WarnFunc?.Invoke($"Tick Thread Abort:{e}.");
+                        WarnFunc?.Invoke($"[TickTiemr] Tick Thread Abort:{e}.");
                     }
                 }
 
@@ -140,6 +148,7 @@ namespace UTimers
             taskDic.Clear();
             if (timerThread != null)
             {
+                timerThread.Interrupt();
                 timerThread.Abort();
             }
             tid = 0;
