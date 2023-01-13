@@ -112,13 +112,14 @@ namespace UTimers
             thread.Start();
         }
 
+        
         void RunTaskInPool(AsyncTask task, CancellationToken cancelTokan)
         {
             Task.Run(async () =>
             {
                 if (task.count > 0)
                 {
-                    //限定次数的循环任务
+                    #region 限定次数的循环任务
                     do
                     {
                         --task.count;//可循环次数-1
@@ -138,13 +139,26 @@ namespace UTimers
                             task.cancelCallBack?.Invoke(task.tid);
                             return;
                         }
-                        CallBackTaskCB(task);
+
+                        try
+                        {
+                            CallBackTaskCB(task);
+                        }
+                        catch (Exception e)
+                        {
+                            ErrorFunc?.Invoke("[AsyncTimer Error]");
+                            ErrorFunc?.Invoke(e.ToString());
+                            task.cancelCallBack?.Invoke(task.tid);
+                            return;
+                        }
+
                     } while (task.count > 0);
+                    #endregion
 
                 }
                 else
                 {
-                    //无限循环任务
+                    #region 无限次数循环任务
                     while (true)
                     {
                         ++task.loopIndex;//已循环次数+1
@@ -163,8 +177,20 @@ namespace UTimers
                             task.cancelCallBack?.Invoke(task.tid);
                             return;
                         }
-                        CallBackTaskCB(task);
+
+                        try
+                        {
+                            CallBackTaskCB(task);
+                        }
+                        catch (Exception e)
+                        {
+                            ErrorFunc?.Invoke("[AsyncTimer Error]");
+                            ErrorFunc?.Invoke(e.ToString());
+                            task.cancelCallBack?.Invoke(task.tid);
+                            return;
+                        }
                     }
+                    #endregion
                 }
             }, cancelTokan);
         }
