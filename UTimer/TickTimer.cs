@@ -3,7 +3,7 @@
 /// ClassName    ：  TickTimer
 /// Author       ：  LCG
 /// CreateTime   ：  2022/5/10 星期二 
-/// Description  ：  毫秒级的精确定时器，后台单线程轮询任务列表
+/// Description  ：  毫秒级的精确定时器，单线程轮询任务列表
 ///********************************************/
 /// </summary>
 using System;
@@ -36,7 +36,7 @@ namespace UTimers
         private Thread timerThread;
 
         /// <summary>
-        /// 实例化timer，后台单线程轮询任务列表执行任务
+        /// 实例化timer，单线程轮询任务列表执行任务
         /// </summary>
         /// <param name="interval">任务驱动器每次驱动(任务列表轮询)的间隔时间【默认20，单位毫秒】</param>
         /// <param name="setHandle">默认false，如果为true则需要使用者在外部update中调用
