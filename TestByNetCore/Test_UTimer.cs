@@ -95,7 +95,7 @@ namespace Test
 
         void AsyncTimer_Debug()
         {
-            AsyncTimer timer = new AsyncTimer(true)
+            AsyncTimer timer = new AsyncTimer()
             {
                 LogFunc = ULog.Log,
                 WarnFunc = ULog.Warn,
@@ -131,14 +131,6 @@ namespace Test
                     count);
             });
 
-            Task.Run(async () =>
-            {
-                while (true)
-                {
-                    await Task.Delay(5);
-                    timer.UpdateHandleTask();
-                }
-            });
 
             while (true)
             {

@@ -19,6 +19,7 @@
     <ProjectReference Include="..\UKCP\UKCP.csproj" />
     <ProjectReference Include="..\ULog\ULog.csproj" />
     <ProjectReference Include="..\UMath\UMath.csproj" />
+    <ProjectReference Include="..\UPriorityQueue\UPriorityQueue.csproj" />
     <ProjectReference Include="..\UTimer\UTimer.csproj" />
   </ItemGroup>
 
