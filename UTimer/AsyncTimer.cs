@@ -33,7 +33,6 @@ namespace UTimers
         /// <summary>
         /// 实例化 AsyncTimer，运行在线程池
         /// </summary>
-        /// <param name="setHandle">如设置的setHandle=true，使用者需在外部update调用此函数驱动任务</param>
         public AsyncTimer()
         {
             this.taskCancelDic = new ConcurrentDictionary<int, CancellationTokenSource>();
