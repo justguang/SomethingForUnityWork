@@ -1,0 +1,13 @@
+using UnityEngine;
+
+namespace MyNamespace{
+	public class #SCRIPTNAME# : MonoBehaviour
+	{
+		void Start()
+		{
+			#NOTRIM#
+		}
+
+	}
+
+}

@@ -32,4 +32,5 @@
 # UnityEngine_xxx_lib
     引用unity
 
-    
+# ScriptTemplates
+    Unity脚本模板

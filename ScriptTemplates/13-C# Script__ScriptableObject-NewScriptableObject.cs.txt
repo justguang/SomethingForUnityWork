@@ -1,0 +1,10 @@
+using UnityEngine;
+
+namespace MyNamespace{
+	[CreateAssetMenu(menuName=(""),fileName=(""))]
+	public class #SCRIPTNAME# : ScriptableObject
+	{
+		#NOTRIM#
+	}
+
+}
