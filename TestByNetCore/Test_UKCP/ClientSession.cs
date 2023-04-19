@@ -1,4 +1,4 @@
-﻿/// <summary>
+/// <summary>
 ///********************************************
 /// ClassName    ：  ClientSession
 /// Author       ：  LCG
@@ -7,9 +7,8 @@
 ///********************************************/
 /// </summary>
 using System;
-using UKcps;
-using KCPExampleProtocol;
-using ULogs;
+using RGuang.Net.UKcp;
+using RGuang.Utils;
 
 namespace Test.Test_UKCP
 {
@@ -26,6 +25,28 @@ namespace Test.Test_UKCP
         protected override void OnReciveMsg(NetMsg msg)
         {
             ULog.ColorLog(ULogColor.Magenta,"sid:{0}, Recive server data info:{1}",m_sid,msg.info);
+        }
+
+        protected override void OnUpdate(DateTime now)
+        {
+        }
+    }
+
+    class ServerSession : KCPSession<NetMsg>
+    {
+        protected override void OnConnected()
+        {
+            ULog.ColorLog(ULogColor.Green, " One Client connected...");
+        }
+
+        protected override void OnDisConnected()
+        {
+            ULog.ColorLog(ULogColor.Red, " One Client Disconnected...");
+        }
+
+        protected override void OnReciveMsg(NetMsg msg)
+        {
+            ULog.ColorLog(ULogColor.Magenta, "sid:{0}, Recive Client data info:{1}", m_sid, msg.info);
         }
 
         protected override void OnUpdate(DateTime now)

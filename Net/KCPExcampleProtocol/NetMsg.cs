@@ -1,4 +1,4 @@
-﻿/// <summary>
+/// <summary>
 ///********************************************
 /// ClassName    ：  NetMsg
 /// Author       ：  LCG
@@ -7,12 +7,12 @@
 ///********************************************/
 /// </summary>
 using System;
-using UKcps;
+using RGuang.Net.UKcp;
 
-namespace KCPExampleProtocol
+namespace RGuang.Net.UKcp
 {
     [Serializable]
-    public class NetMsg:KCPMsg
+    public class NetMsg : KCPMsg
     {
         public CMD cmd;
         public NetPing netPing;

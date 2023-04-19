@@ -1,8 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using RGuang.Utils;
 using Test.Test_UKCP;
-using UCollection;
-using ULogs;
 
 
 namespace Test
@@ -36,7 +35,8 @@ namespace Test
 
 
             //## test UKCP
-            //ClientStart.Init("127.0.0.1", 6080);
+            ClientStart.Init("127.0.0.1", 19021);
+            //ServerStart.Init("127.0.0.1", 19021);
             //end
 
 
@@ -47,15 +47,15 @@ namespace Test
 
             //## test Socket
             //Test_ServerSkt client = new Test_ServerSkt();
-            //client.Init("192.168.1.122", 19021);
+            //client.Init("127.0.0.1", 19022);
             //end
 
             //## test PriorityQueue
             //int count = 1000000;
             //while (count > 0)
             //{
-            //count--;
-            //LoopTestForUpriorityQueue();
+            //    count--;
+            //    LoopTestForUpriorityQueue();
             //}
 
             Console.WriteLine("## Test End on .Net Core##");

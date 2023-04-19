@@ -1,4 +1,4 @@
-﻿/// <summary>
+/// <summary>
 ///********************************************
 /// ClassName    ：  Test_ULog
 /// Author       ：  LCG
@@ -7,7 +7,7 @@
 ///********************************************/
 /// </summary>
 using System;
-using ULogs;
+using RGuang.Utils;
 
 namespace Test
 {

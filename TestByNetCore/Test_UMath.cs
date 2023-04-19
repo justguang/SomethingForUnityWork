@@ -1,4 +1,4 @@
-﻿/// <summary>
+/// <summary>
 ///********************************************
 /// ClassName    ：  Test_UMath
 /// Author       ：  LCG
@@ -8,7 +8,7 @@
 /// </summary>
 
 using System;
-using UMaths;
+using RGuang.Utils.UMath;
 
 namespace Test
 {
@@ -17,14 +17,14 @@ namespace Test
         public void Init()
         {
             //Test_UInt();
-            //Test_UCalc();
-            Test_UVector3();
+            Test_UCalc();
+            //Test_UVector3();
         }
 
 
         void Test_UCalc()
         {
-            UInt val = 3;
+            UInt val = 2;
             Console.WriteLine(UCalc.Sqrt(val));
             Console.WriteLine();
         }
@@ -76,7 +76,7 @@ namespace Test
             }
 
             //位移
-            UInt val3 = val1 << 1;
+            UInt val3 = val1 << 2;
             Console.WriteLine("val1 << 1 =" + val3);
 
             //显示转换和隐式转换

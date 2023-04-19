@@ -1,4 +1,4 @@
-﻿/// <summary>
+/// <summary>
 ///********************************************
 /// ClassName    ：  Test_ServerSkt
 /// Author       ：  LCG
@@ -82,6 +82,8 @@ namespace Test
         {
             int len = client.EndReceive(ar);
             string str = Encoding.ASCII.GetString(bytes, 0, len);
+
+            Console.WriteLine("收到：" + str);
         }
     }
 }

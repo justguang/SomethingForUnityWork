@@ -1,4 +1,4 @@
-﻿/// <summary>
+/// <summary>
 ///********************************************
 /// ClassName    ：  Test_UIOCPNet
 /// Author       ：  LCG
@@ -7,11 +7,8 @@
 ///********************************************/
 /// </summary>
 using System;
-using System.IO;
-using System.Net;
-using System.Net.Http;
-using System.Text;
-using UIOCPNet;
+using System.Collections.Generic;
+using RGuang.Net.IOCPNet;
 
 namespace TestByNetFramework
 {
@@ -21,10 +18,10 @@ namespace TestByNetFramework
         
         public void Init()
         {
-
+            IOCPTool.EnableLogSaveToFile("test_UIOCP");
             IOCPNet<UIOCPNet_Example, NetMsg> net = new IOCPNet<UIOCPNet_Example, NetMsg>();
-            //net.StartAsClient("103.46.128.44", 40707);
-            net.StartAsServer("127.0.0.1", 19022,1000);
+            net.StartAsClient("127.0.0.1", 19022);
+            //net.StartAsServer("127.0.0.1", 19022, 1000);
 
             while (true)
             {
@@ -32,10 +29,23 @@ namespace TestByNetFramework
                 if (ipt == "quit")
                 {
                     net.CloseClient();
+                    //net.CloseServer();
                     break;
                 }
                 else
                 {
+                    ////Server Send
+                    //List<UIOCPNet_Example> tokenList = net.GetTokenList();
+                    //int len = tokenList.Count;
+                    //for (int i = 0; i < len; i++)
+                    //{
+                    //    tokenList[i].SendMsg(new NetMsg
+                    //    {
+                    //        msg = string.Format("Broadcast:{0}", ipt),
+                    //    });
+                    //}
+
+                    //Client Send
                     net.token.SendMsg(new NetMsg
                     {
                         msg = ipt,

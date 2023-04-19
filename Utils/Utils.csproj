@@ -2,18 +2,20 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>RGuang.Utils</RootNamespace>
+    <AssemblyName>RGuang.Utils</AssemblyName>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>bin\Debug\RGuang.Utils.xml</DocumentationFile>
+    <WarningLevel>5</WarningLevel>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>bin\Release\RGuang.Utils.xml</DocumentationFile>
+    <WarningLevel>5</WarningLevel>
   </PropertyGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\UKCP\UKCP.csproj" />
-  </ItemGroup>
 
 </Project>

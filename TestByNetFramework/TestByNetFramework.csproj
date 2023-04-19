@@ -85,21 +85,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\UIOCPNet\UIOCPNet.csproj">
+    <ProjectReference Include="..\Net\Net.csproj">
       <Project>{dd19fd8e-cd93-46b4-b40a-255356055179}</Project>
-      <Name>UIOCPNet</Name>
+      <Name>Net</Name>
     </ProjectReference>
-    <ProjectReference Include="..\UKCPExampleProtocol\UKCPExampleProtocol.csproj">
-      <Project>{7cbb0bcc-df47-41d5-94b6-d07008b38adc}</Project>
-      <Name>UKCPExampleProtocol</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\UKCP\UKCP.csproj">
-      <Project>{c13892ff-c5a7-4776-8366-b81e53b95b18}</Project>
-      <Name>UKCP</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ULog\ULog.csproj">
+    <ProjectReference Include="..\Utils\Utils.csproj">
       <Project>{857a80e1-f097-4e3b-86de-5fdb7ef8d664}</Project>
-      <Name>ULog</Name>
+      <Name>Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

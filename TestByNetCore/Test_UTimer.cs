@@ -1,4 +1,4 @@
-﻿/// <summary>
+/// <summary>
 ///********************************************
 /// ClassName    ：  Test_UTimer
 /// Author       ：  LCG
@@ -10,8 +10,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using ULogs;
-using UTimers;
+using RGuang.Utils;
 
 namespace Test
 {
@@ -23,9 +22,9 @@ namespace Test
 
             ULog.Log("test UTimer Run...");
 
-            //TickTimer_Debug();
+            TickTimer_Debug();
             //AsyncTimer_Debug();
-            FrameTimer_Debug();
+            //FrameTimer_Debug();
 
         }
 
