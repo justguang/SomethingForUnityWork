@@ -289,7 +289,7 @@ namespace RGuang.Utils
         /// <param name="args">格式化的参数</param>
         public static void Log(string msg, params object[] args)
         {
-            if (!cfg.enableLog) return;
+            if ((cfg.logLevel & ULoggerLevel.Log) == 0) return;
 
             msg = DecorateLog(string.Format(msg, args));
             logger.Log(msg);
@@ -304,7 +304,7 @@ namespace RGuang.Utils
         /// <param name="obj">要打印的内容</param>
         public static void Log(object obj)
         {
-            if (!cfg.enableLog) return;
+            if ((cfg.logLevel & ULoggerLevel.Log) == 0) return;
 
             string msg = DecorateLog(obj.ToString());
             logger.Log(msg);
@@ -322,7 +322,7 @@ namespace RGuang.Utils
         /// <param name="args">格式化的参数</param>
         public static void ColorLog(ULogColor color, string msg, params object[] args)
         {
-            if (!cfg.enableLog) return;
+            if ((cfg.logLevel & ULoggerLevel.Log) == 0) return;
 
             msg = DecorateLog(string.Format(msg, args));
             logger.Log(msg, color);
@@ -338,7 +338,7 @@ namespace RGuang.Utils
         /// <param name="obj">要打印的内容</param>
         public static void ColorLog(ULogColor color, object obj)
         {
-            if (!cfg.enableLog) return;
+            if ((cfg.logLevel & ULoggerLevel.Log) == 0) return;
 
             string msg = DecorateLog(obj.ToString());
             logger.Log(msg, color);
@@ -355,7 +355,7 @@ namespace RGuang.Utils
         /// <param name="args">格式化的参数</param>
         public static void Warn(string msg, params object[] args)
         {
-            if (!cfg.enableLog) return;
+            if ((cfg.logLevel & ULoggerLevel.Warn) == 0) return;
 
             msg = DecorateLog(string.Format(msg, args));
             logger.Warn(msg);
@@ -370,7 +370,7 @@ namespace RGuang.Utils
         /// <param name="obj">要打印的内容</param>
         public static void Warn(object obj)
         {
-            if (!cfg.enableLog) return;
+            if ((cfg.logLevel & ULoggerLevel.Warn) == 0) return;
 
             string msg = DecorateLog(obj.ToString());
             logger.Warn(msg);
@@ -387,7 +387,7 @@ namespace RGuang.Utils
         /// <param name="args">格式化的参数</param>
         public static void Error(string msg, params object[] args)
         {
-            if (!cfg.enableLog) return;
+            if ((cfg.logLevel & ULoggerLevel.Error) == 0) return;
 
             msg = DecorateLog(string.Format(msg, args), true);
             logger.Error(msg);
@@ -402,7 +402,7 @@ namespace RGuang.Utils
         /// <param name="obj">要打印的内容</param>
         public static void Error(object obj)
         {
-            if (!cfg.enableLog) return;
+            if ((cfg.logLevel & ULoggerLevel.Error) == 0) return;
 
             string msg = DecorateLog(obj.ToString(), true);
             logger.Error(msg);
@@ -419,7 +419,7 @@ namespace RGuang.Utils
         /// <param name="args">格式化的参数</param>
         public static void Trace(string msg, params object[] args)
         {
-            if (!cfg.enableLog) return;
+            if ((cfg.logLevel & ULoggerLevel.Trace) == 0) return;
 
             msg = DecorateLog(string.Format(msg, args), true);
             logger.Log(msg, ULogColor.Magenta);
@@ -434,7 +434,7 @@ namespace RGuang.Utils
         /// <param name="obj">要打印的内容</param>
         public static void Trace(object obj)
         {
-            if (!cfg.enableLog) return;
+            if ((cfg.logLevel & ULoggerLevel.Trace) == 0) return;
 
             string msg = DecorateLog(obj.ToString(), true);
             logger.Log(msg, ULogColor.Magenta);

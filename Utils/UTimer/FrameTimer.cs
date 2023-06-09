@@ -47,7 +47,7 @@ namespace RGuang.Utils
 
             if (taskDic.ContainsKey(tid))
             {
-                WarnFunc?.Invoke($"[FrameTimer] 定时任务 id: {tid} 已存在.");
+                WarnFunc.Invoke($"[FrameTimer] 定时任务 id: {tid} 已存在.");
                 return -1;
             }
             else
@@ -75,13 +75,13 @@ namespace RGuang.Utils
                 }
                 else
                 {
-                    ErrorFunc?.Invoke($"[FrameTimer] Remove tid:{tid} in taskDic failed.");
+                    ErrorFunc.Invoke($"[FrameTimer] Remove tid:{tid} in taskDic failed.");
                     return false;
                 }
             }
             else
             {
-                WarnFunc?.Invoke($"[FrameTimer] tid:{tid} is not exist in taskDic.");
+                WarnFunc.Invoke($"[FrameTimer] tid:{tid} is not exist in taskDic.");
                 return false;
             }
 
@@ -129,11 +129,11 @@ namespace RGuang.Utils
             {
                 if (taskDic.Remove(tidCompleteList[i]))
                 {
-                    LogFunc?.Invoke($"[FrameTimer] 定时任务 id:{tidCompleteList[i]} 执行完成.");
+                    LogFunc.Invoke($"[FrameTimer] 定时任务 id:{tidCompleteList[i]} 执行完成.");
                 }
                 else
                 {
-                    ErrorFunc?.Invoke($"[FrameTimer] Remove tid:{tidCompleteList[i]}  task in taskDic failed.");
+                    ErrorFunc.Invoke($"[FrameTimer] Remove tid:{tidCompleteList[i]}  task in taskDic failed.");
                 }
             }
         }

@@ -12,9 +12,9 @@ namespace RGuang.Utils
 {
     public abstract class UTimer
     {
-        public Action<string> LogFunc;
-        public Action<string> WarnFunc;
-        public Action<string> ErrorFunc;
+        public Action<string> LogFunc = delegate { };
+        public Action<string> WarnFunc = delegate { };
+        public Action<string> ErrorFunc = delegate { };
 
         /// <summary>
         /// 添加、创建定时任务

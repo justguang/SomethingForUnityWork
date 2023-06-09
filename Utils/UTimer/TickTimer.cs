@@ -67,13 +67,13 @@ namespace RGuang.Utils
                             catch (Exception e)
                             {
                                 if (e is ThreadAbortException||e is ThreadInterruptedException) throw e;
-                                ErrorFunc?.Invoke($"[TickTimer] Error:{e}");
+                                ErrorFunc.Invoke($"[TickTimer] Error:{e}");
                             }
                         }
                     }
                     catch (Exception e)
                     {
-                        WarnFunc?.Invoke($"[TickTiemr] Tick Thread Abort:{e}.");
+                        WarnFunc.Invoke($"[TickTiemr] Tick Thread Abort:{e}.");
                     }
                 }
 
@@ -103,7 +103,7 @@ namespace RGuang.Utils
             }
             else
             {
-                WarnFunc?.Invoke($"[TickTimer] 定时任务 id: {tid} 已存在~!");
+                WarnFunc.Invoke($"[TickTimer] 定时任务 id: {tid} 已存在~!");
                 return -1;
             }
 
@@ -130,7 +130,7 @@ namespace RGuang.Utils
             }
             else
             {
-                WarnFunc?.Invoke($"[TickTimer] tid:{tid} remove failed.");
+                WarnFunc.Invoke($"[TickTimer] tid:{tid} remove failed.");
                 return false;
             }
         }
@@ -142,7 +142,7 @@ namespace RGuang.Utils
         {
             if (packQueue != null && !packQueue.IsEmpty)
             {
-                WarnFunc?.Invoke($"[TickTimer] callback queue is not empty.");
+                WarnFunc.Invoke($"[TickTimer] callback queue is not empty.");
             }
 
             taskDic.Clear();
@@ -202,7 +202,7 @@ namespace RGuang.Utils
                 }
                 else
                 {
-                    ErrorFunc?.Invoke($"[TickTimer] packQueue dequeue data Error!!!");
+                    ErrorFunc.Invoke($"[TickTimer] packQueue dequeue data Error!!!");
                 }
             }
         }
@@ -216,7 +216,7 @@ namespace RGuang.Utils
             }
             else
             {
-                WarnFunc?.Invoke($"[TickTimer] Remove tid:{tid} task in Dic failed.");
+                WarnFunc.Invoke($"[TickTimer] Remove tid:{tid} task in Dic failed.");
             }
         }
         void CallTaskCB(int tid, Action<int> taskCB)

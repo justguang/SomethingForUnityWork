@@ -39,6 +39,18 @@ namespace RGuang.Utils
         Yellow
     }
 
+    /// <summary>
+    /// 日志等级
+    /// </summary>
+    [Flags]
+    public enum ULoggerLevel
+    {
+        None = 0x1,
+        Log = 0x2,
+        Warn = 0x4,
+        Trace = 0x8,
+        Error = 0x10
+    }
 
     /// <summary>
     /// ULog 配置
@@ -46,9 +58,9 @@ namespace RGuang.Utils
     public class ULogConfig
     {
         /// <summary>
-        /// 日志启用开关【默认true，启用】
+        /// 日志启用等级
         /// </summary>
-        public bool enableLog = true;
+        public ULoggerLevel logLevel = ULoggerLevel.Log | ULoggerLevel.Warn | ULoggerLevel.Error;
         /// <summary>
         /// 前缀标记【默认 #】
         /// </summary>

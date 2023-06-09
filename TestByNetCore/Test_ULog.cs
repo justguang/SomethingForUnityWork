@@ -48,7 +48,7 @@ namespace Test
         {
             ULog.InitSetting(new ULogConfig
             {
-                enableLog = true,
+                logLevel =  ULoggerLevel.Trace|ULoggerLevel.Log,
                 enableSave = true,
                 enableTrace = true,
                 enableTime = true,

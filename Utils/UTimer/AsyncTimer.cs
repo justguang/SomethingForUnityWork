@@ -63,7 +63,7 @@ namespace RGuang.Utils
             }
             else
             {
-                WarnFunc?.Invoke($"[AsyncTimer] 定时任务id:{tid} 已存在~!");
+                WarnFunc.Invoke($"[AsyncTimer] 定时任务id:{tid} 已存在~!");
                 return -1;
             }
 
@@ -78,14 +78,14 @@ namespace RGuang.Utils
         {
             if (this.taskCancelDic.TryRemove(tid, out CancellationTokenSource cts))
             {
-                LogFunc?.Invoke($"[AsyncTimer] 删除定时任务 id:{tid} 成功.");
+                LogFunc.Invoke($"[AsyncTimer] 删除定时任务 id:{tid} 成功.");
                 cts.Cancel();
 
                 return true;
             }
             else
             {
-                ErrorFunc?.Invoke($"[AsyncTimer] Remove tid:{tid} task in taskDic failed.");
+                ErrorFunc.Invoke($"[AsyncTimer] Remove tid:{tid} task in taskDic failed.");
                 return false;
             }
 
@@ -134,7 +134,7 @@ namespace RGuang.Utils
                         if (cancelTokan.IsCancellationRequested)
                         {
                             //任务取消
-                            WarnFunc?.Invoke($"[AsyncTimer] 定时任务 id={task.tid} 取消");
+                            WarnFunc.Invoke($"[AsyncTimer] 定时任务 id={task.tid} 取消");
                             task.cancelCallBack?.Invoke(task.tid);
                             return;
                         }
@@ -145,8 +145,8 @@ namespace RGuang.Utils
                         }
                         catch (Exception e)
                         {
-                            ErrorFunc?.Invoke("[AsyncTimer Error]");
-                            ErrorFunc?.Invoke(e.ToString());
+                            ErrorFunc.Invoke("[AsyncTimer Error]");
+                            ErrorFunc.Invoke(e.ToString());
                             //task.cancelCallBack?.Invoke(task.tid);
                             return;
                         }
@@ -172,7 +172,7 @@ namespace RGuang.Utils
                         if (cancelTokan.IsCancellationRequested)
                         {
                             //任务取消
-                            WarnFunc?.Invoke($"[AsyncTimer] 定时任务 id={task.tid} 取消");
+                            WarnFunc.Invoke($"[AsyncTimer] 定时任务 id={task.tid} 取消");
                             task.cancelCallBack?.Invoke(task.tid);
                             return;
                         }
@@ -183,8 +183,8 @@ namespace RGuang.Utils
                         }
                         catch (Exception e)
                         {
-                            ErrorFunc?.Invoke("[AsyncTimer Error]");
-                            ErrorFunc?.Invoke(e.ToString());
+                            ErrorFunc.Invoke("[AsyncTimer Error]");
+                            ErrorFunc.Invoke(e.ToString());
                             //task.cancelCallBack?.Invoke(task.tid);
                             return;
                         }
@@ -203,11 +203,11 @@ namespace RGuang.Utils
             {
                 if (taskCancelDic.TryRemove(task.tid, out CancellationTokenSource cts))
                 {
-                    LogFunc?.Invoke($"[AsyncTimer] 定时任务 id:{task.tid} 执行完成.");
+                    LogFunc.Invoke($"[AsyncTimer] 定时任务 id:{task.tid} 执行完成.");
                 }
                 else
                 {
-                    ErrorFunc?.Invoke($"[AsyncTimer] Remove tid:{task.tid} task in taskDic failed.");
+                    ErrorFunc.Invoke($"[AsyncTimer] Remove tid:{task.tid} task in taskDic failed.");
                 }
             }
         }

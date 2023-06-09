@@ -11,8 +11,8 @@ namespace Test
         static void Main(string[] args)
         {
             //## test ULog
-            //Test_ULog test_ULog = new Test_ULog();
-            //test_ULog.Init();
+            Test_ULog test_ULog = new Test_ULog();
+            test_ULog.Init();
             //end
 
 
@@ -35,7 +35,7 @@ namespace Test
 
 
             //## test UKCP
-            ClientStart.Init("127.0.0.1", 19021);
+            //ClientStart.Init("127.0.0.1", 19021);
             //ServerStart.Init("127.0.0.1", 19021);
             //end
 
